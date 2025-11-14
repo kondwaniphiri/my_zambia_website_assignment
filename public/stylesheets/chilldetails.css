@@ -1,0 +1,310 @@
+.search{
+    width: 90%;
+    background-color: white;
+    position: fixed;
+    z-index: 16;
+    margin-left: 5%;
+    height: 90vh;
+    border-radius: 15px;
+    border: solid 1px rgba(165, 42, 42, 0.641);
+    top: 20px;
+    overflow: scroll;
+}
+.search .topLayer
+{
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+}
+.topLayer input{
+    width: 20%;
+    padding: 5px;
+    border-radius: 15px;
+    margin-right: 5%;
+}
+.topLayer span{
+    color: red;
+    font-family: sans-serif;
+    font-size: 25px;
+}
+.topLayer span:hover{
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.searchContent{
+    width: 100%;
+    margin-top: 50px;
+}
+.searchCard{
+    width: 80%;
+    margin-left: 10%;
+    height: 20vh;
+    border: solid 1px rgba(165, 42, 42, 0.636);
+    border-radius: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 20px;
+}
+
+.searchCard img{
+    width: 25%;
+    height: 15vh;
+    margin-left: 2.5%;
+    border-radius: 15px;
+}
+.searchCard .details{
+    width: 67.5%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+.searchCard .details a{
+    color: brown;
+}
+.searchCard .details a:hover{
+    color: brown;
+    font-weight: bold;
+}
+
+header{
+    background-color: rgba(49, 31, 2, 0.467);
+}
+
+
+#locationId{
+    display: none;
+}
+
+#userId{
+    display: none;
+}
+.main{
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+}
+.det{
+    width: 50%;
+}
+.main img{
+    width: 50%;
+}
+.det h1{
+    font-size: 4em;
+    color: brown;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin-left: 5%;
+}
+.det h2, .gallery h1{
+    color: rgba(165, 42, 42, 0.705);
+    font-family: sans-serif;
+    margin-left: 5%;
+    font-weight: bold;
+    font-size: 3em;
+}
+.det p{
+    margin-left: 6%;
+    margin-top: 10px;
+    font-family: sans-serif;
+}
+.det p{
+    font-size: 0.9em;
+    width: 90%;
+}
+.gallery h1{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.gallery{
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+.gallery div{
+    width: 10%;
+    height: 200px;
+    overflow: hidden;
+    margin-left: 3%;
+    border-radius: 15px;
+}
+.gallery img{
+    height: 100%;
+}
+
+.map{
+    margin-top: 100px;
+}
+.map iframe{
+    width: 80%;
+    margin-left: 10%;
+}
+
+.contact{
+    width: 80%;
+    margin-left: 10%;
+}
+.contact h1{
+    color: rgba(165, 42, 42, 0.86);
+    font-family: sans-serif;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    font-weight: bold;
+    font-size: 3em;
+}
+.contact h3{
+    font-family: sans-serif;
+    color: rgba(165, 42, 42, 0.87);
+    margin-bottom: 5px;
+}
+.contact span{
+    margin-left: 20px;
+    color: rgba(165, 42, 42, 0.584);
+}
+.map{
+    margin-bottom: 30vh;
+}
+.contact a{
+    color: brown;
+
+}
+.contact a:hover{
+    font-size: 0.95em;
+    color: rgba(165, 42, 42, 0.453);
+}
+
+
+/* reviews */
+.ratings{
+    display: flex;
+    flex-wrap: wrap;
+}
+.ratingContainer{
+    width: 100%;
+    direction: ltr;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overflow-y: scroll;
+}
+
+.ratingContainer::-webkit-scrollbar{
+    display: none;
+}
+.ratings h1{
+    color: rgba(165, 42, 42, 0.86);
+    font-family: sans-serif;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    font-weight: bold;
+    font-size: 3em;
+    width: 100%;
+    padding-left: 5%;
+}
+.ratingCard{
+    white-space: wrap;
+    display: inline-block;
+    width: 20%;
+    margin-left: 4%;
+    border-radius: 12px;
+    border: solid gray 1px;
+    height: 20vh;
+    overflow-y: scroll;
+    margin-bottom: 50px;
+}
+.ratingCard h3, .ratingCard p, .ratingCard div{
+    padding: 5% 5%;
+    font-family: sans-serif;
+}
+.stars{
+    color: goldenrod;
+}
+
+.reviewActions{
+    margin-left: 5%;
+    display: flex;
+}
+.reviewActions button{
+    padding: 10px;
+    border-radius: 10px;
+    margin-right: 20px;
+    border: solid 1px white;
+}
+
+.reviewActions button:hover{
+    cursor: pointer;
+    font-weight: bold;
+    transition: ease-in-out 0.3s;
+    font-size: 1.01em;
+    border: solid 2px gray;
+
+}
+
+
+/* add/edit */
+
+.addReview{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin-left: 15%;
+    background-color: white;
+    border: solid 1px gray ;
+    border-radius: 12px;
+    text-align: center;
+    height: 80vh;
+    position: fixed;
+    top: 100px;
+}
+.ratingContainer h1{
+    font-size: 25px;
+}
+.addReview input{
+    width: 20%;
+    margin-left: 40%;
+}
+.addReview label{
+    margin-top: 2%;
+    margin-bottom: 5px;
+}
+.addReview textarea{
+    width: 30%;
+    margin-left: 35%;
+    margin-bottom: 20px;
+    height: 100px;
+}
+.addReview button{
+    width: 10%;
+    margin-left: 45%;
+    padding: 5px 0;
+}
+.addReview h3{
+    margin-top: 30px;
+    font-family: sans-serif;
+}
+.addReview .stars2{
+    border: solid goldenrod 1px;
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 30px;
+    color: goldenrod;
+    padding: 5px;
+    border-radius: 7px;
+}
+.addReview .close{
+    text-align: right;
+    color: red;
+    width: 90%;
+}
+.addReview .close:hover{
+    cursor: pointer;
+    font-size: 1.5em;
+    font-family: sans-serif;
+    transition: all ease-in-out 0.3s;
+}

@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#dashboard {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#sections {
+    margin-bottom: 20px;
+}
+
+#sections button {
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#content {
+    border: 1px solid #ccc;
+    padding: 20px;
+    max-height: 600px;
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+input[type="text"], textarea {
+    width: calc(100% - 20px);
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+button.action-btn {
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Zambia - Homepage</title>
+    <link rel="stylesheet" href="stylesheets/nav.css">
+    <link rel="stylesheet" href="stylesheets/navMobile.css">
+    <link rel="stylesheet" href="stylesheets/home.css">
+    <link rel="stylesheet" href="stylesheets/homeMobile.css">
+    <link rel="stylesheet" href="stylesheets/aos.css">
+    <link rel="stylesheet" href="stylesheets/fontawesome/css/all.css">
+    <link rel="stylesheet" href="stylesheets/fontawesome-free-6.6.0-web/css/all.css">
+    <script src="javascripts/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <header>
+
+    <nav id="nav1">
+      <img src="images/logo.png" alt="" class="logo">
+      <ul class="links">
+        <li><a href="/">Home</a></li>
+        <li><a href="chill">Chill Spots</a></li>
+        <li><a href="attractions">Physical Attractions</a></li>
+        <li><a><i class="fa fa-user"></i> <%=username %></a></li>
+        <li><a href="logout"><i class="fa-solid fa-right-from-bracket"></i></a></li>
+        <div>
+          <input type="text" name="search" id="search" placeholder="Search">
+        </div>
+      </ul>
+    </nav>
+
+    <nav id="nav2">
+      <img src="images/logo.png" alt="" class="logo">
+      <span id="navBarTrigger"><i class="fas fa-bars" ></i><span id="x">X</span></span>
+      <ul class="links2">
+        <div>
+          <input type="text" name="search" id="search2" placeholder="Search">
+        </div>
+        <li><a><i class="fa fa-user"></i> <%=username %></a></li>
+        <li><a href="/">-> Home</a></li>
+        <li><a href="chill">-> Chill Spots</a></li>
+        <li><a href="attractions">-> Physical Attractions</a></li>
+        <li><a href="logout"><i class="fa-solid fa-right-from-bracket"> </i> Logout</a></li>
+
+      </ul>
+    </nav>
+
+  </header>
+
+<section class="search">
+  <div class="topLayer">
+    <input type="text" class="searchBar">
+    <span class="close">X</span>
+  </div>
+
+  <div class="searchContent">
+     You are able to search
+  </div>
+</section>
+
+
+<section class="landing">
+<img src="images/bg1.webp" alt="">
+<div class="landingDetails">
+<h2>Welcome to </h2>
+<h1>My Zambia</h1>
+<p>Discover the hidden gems and breathtaking chill spots that make Zambia a unique destination. From serene natural wonders to vibrant cultural landmarks, My Zambia is your ultimate guide to exploring the beauty and adventure that this amazing country has to offer.</p>
+<img src="images/logo.png" alt="">
+</div>
+</section>
+
+<section class="destination">
+  <h1 data-aos="fade-down" data-aos-delay="300">Destination Highlights</h1>
+
+  <div class="destCard" data-aos="fade-up" data-aos-delay="400">
+    <div class="innerCard">
+      <img src="images/highlights/1.jpg" alt="">s
+      <h1>Jackie O</h1>
+    </div>
+    <div class="destOverlap">
+      <h1>Jackie O</h1>
+      <p>Jackie O Restaurant is a stylish dining spot known for its elegant ambiance and gourmet menu. With a focus on fresh, locally sourced ingredients, it offers a unique fusion of international and regional flavors, making it a perfect choice for special occasions or a refined night out.</p>
+    </div>
+  </div>
+
+  <div class="destCard" data-aos="fade-up" data-aos-delay="400">
+    <div class="innerCard">
+      <img src="images/highlights/2.jpg" alt="">s
+      <h1>Club Social</h1>
+    </div>
+    <div class="destOverlap">
+      <h1>Club Social</h1>
+      <p>Club Social is a trendy venue known for its vibrant atmosphere and chic design. It offers a lively space for socializing, with a menu that features creative cocktails and modern dishes, making it a popular spot for a night out with friends.</p></div>
+  </div>
+
+<div class="destCard" data-aos="fade-down" data-aos-delay="400">
+  <div class="innerCard">
+    <img src="images/highlights/3.jpg" alt="">
+    <h1>Harry's Grill</h1>
+  </div>
+  <div class="destOverlap">
+    <h1>Harry's Grill</h1>
+    <p>Harry's Grill is a cozy eatery renowned for its classic, hearty dishes and relaxed atmosphere. It’s a go-to spot for comfort food, offering a menu filled with expertly grilled meats and homestyle favorites, perfect for a laid-back meal.</p></div>
+</div>
+
+<div class="destCard" data-aos="fade-right" data-aos-delay="400">
+<div class="innerCard">
+  <img src="images/highlights/4.jpg" alt="">s
+  <h1>Urban Yard</h1>
+</div>
+<div class="destOverlap">
+  <h1>Urban Yard</h1>
+  <p>Urban Yard is a modern hangout spot known for its urban-chic vibe and innovative menu. With a focus on fresh, creative dishes and craft beverages, it’s an ideal place for those looking to enjoy a stylish, laid-back dining experience.</p></div>
+</div>
+
+<div class="destCard" data-aos="fade-right" data-aos-delay="400">
+<div class="innerCard">
+  <img src="images/highlights/5sub.jpg" alt="">s
+  <h1>Gigibonta</h1>
+</div>
+<div class="destOverlap">
+  <h1>Gigibonta</h1>
+  <p>GigiBontà is a charming spot celebrated for its delightful selection of artisanal gelato and pastries. With a cozy, inviting atmosphere, it’s the perfect place to indulge in sweet treats and enjoy a relaxing break.</p></div>
+</div>
+
+<div class="destCard" data-aos="fade-up" data-aos-delay="400">
+<div class="innerCard">
+  <img src="images/highlights/6.jpg" alt="">s
+  <h1>Radison Blu</h1>
+</div>
+<div class="destOverlap">
+  <h1>Radison Blu</h1>
+ <p>Radisson Blu is a sophisticated hotel offering upscale accommodations and top-notch amenities. Known for its modern design and exceptional service, it provides a luxurious retreat with a range of dining options, a well-equipped fitness center, and elegant event spaces.</p></div>
+</div>
+
+<div class="destCard" data-aos="fade-up" data-aos-delay="400">
+<div class="innerCard">
+  <img src="images/highlights/7.jpg" alt="">s
+  <h1>Grandaddys's</h1>
+</div>
+<div class="destOverlap">
+  <h1>Grandaddys's</h1>
+  <p>Granddaddy's is a lively club renowned for its energetic atmosphere and vibrant nightlife. With a dynamic mix of music, cocktails, and a stylish setting, it’s a go-to destination for an unforgettable night out.</p></div>
+</div>
+
+<div class="destCard" data-aos="fade-down" data-aos-delay="400">
+<div class="innerCard">
+  <img src="images/highlights/8.jpg" alt="">s
+  <h1>37D Gallery</h1>
+</div>
+<div class="destOverlap">
+  <h1>37D Gallery</h1>
+  <p>37D Gallery is a contemporary art space celebrated for its eclectic exhibitions and immersive cultural experiences. With a focus on innovative works and emerging artists, it offers a dynamic environment for art enthusiasts to explore and engage with modern creativity.</p></div>
+</div>
+
+<div class="destCard" data-aos="fade-right" data-aos-delay="400">
+<div class="innerCard">
+  <img src="images/highlights/9.jpg" alt="">s
+  <h1>Kalimba Reptile Farm</h1>
+</div>
+<div class="destOverlap">
+  <h1>37D Gallery</h1>
+  <p>Kalimba Reptile Farm is an engaging attraction known for its diverse collection of reptiles and amphibians. Visitors can explore and learn about a variety of species in a family-friendly environment, making it a fascinating destination for wildlife enthusiasts and curious minds alike.</p></div>
+</div>
+
+<div class="destCard" data-aos="fade-right" data-aos-delay="400">
+<div class="innerCard">
+  <img src="images/highlights/10.jpg" alt="">s
+  <h1>Sunday Craft Market</h1>
+</div>
+<div class="destOverlap">
+  <h1>Sunday Craft Market</h1>
+  <p>Sunday Craft Market is a vibrant bazaar featuring a wide array of handmade crafts, unique goods, and local artisanal products. With its lively atmosphere and diverse stalls, it offers a charming shopping experience where visitors can discover one-of-a-kind items and support local creators.</p></div>
+</div>
+
+</section>
+
+
+<section class="newsFeed">
+
+  
+</section>
+
+
+
+
+<footer>
+<div class="socialSection">
+  <img src="images/logo.png" alt="">
+  <div class="social">
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-youtube"></i></a>
+    <a href="#"><i class="fab fa-tiktok"></i></a>
+  </div>
+</div>
+<div class="leftSide">
+  <div class="top">
+    <h3>Subscribe For our News Letter</h3>
+    <input class="newsLetter" type="email">
+    <button class="newsLetterButton">Send</button>
+  </div>
+  <div class="bottom">
+    <a href="#">Cookie Policy</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms and Conditions</a>
+    <a href="#">Contact Us</a>
+    <a href="#">About Us</a>
+  </div>
+</div>
+<h5 class="cpr">All Rights Reserved My Zambia</h5>
+
+</footer>
+
+<script src="javascripts/script.js"></script>
+<script src="javascripts/home.js"></script>
+<script src="javascripts/login.js"></script>
+<script src="javascripts/aos.js"></script>
+<script src="javascripts/search.js"></script>
+<script>AOS.init();</script>
+
+
+</body>
+</html>
