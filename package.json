@@ -7,6 +7,7 @@
     "screenshots": "node scripts/capture-screenshots.js",
     "dev": "nodemon ./bin/www",
     "migrate": "node scripts/migrate-database.js",
+    "db:export": "node scripts/export-database.js",
     "test": "node verify-fixes.cjs && node verify-frontend.cjs && node verify-image-viewer.cjs && node verify-directory.cjs",
     "test:database": "node verify-database.cjs",
     "test:email": "node verify-email.cjs"

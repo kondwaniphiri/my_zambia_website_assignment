@@ -473,6 +473,13 @@ It does not submit messages, reviews or newsletters. External embeds are exclude
 
 ## Repository housekeeping
 
+`myzambia.sql` includes the current migrated schema and public location, news and
+review content. Accounts are anonymized with random, discarded password hashes.
+Private email data, sessions and login limits are excluded. Refresh this shareable
+export with `npm run db:export`. Import it into an empty database, then run
+`npm run migrate` for any future schema changes. Existing local accounts are not
+changed by exporting; create your own account on a new installation.
+
 Installed dependencies (`node_modules`), `.env`, private backups and local account
 details (`.local`) are ignored. Install dependencies with `npm ci` after cloning.
 Only the CSS, webfonts and licence needed from Font Awesome are included.
