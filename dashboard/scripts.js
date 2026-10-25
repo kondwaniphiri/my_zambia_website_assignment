@@ -1,5 +1,9 @@
+// Author: Kondwani Phiri
 $(document).ready(function() {
-    const url = "http://localhost:3000/database/action";
+    const url = "/database/action";
+    $(document).ajaxError(function(event, xhr) {
+        alert(xhr.responseJSON && xhr.responseJSON.error || 'The request failed. Please reload and try again.');
+    });
 
     // Load Chill Spots
     $('#chillspots-btn').click(function() {
@@ -30,11 +34,11 @@ $(document).ready(function() {
         let content = '<h2>Chill Spots</h2><table><tr><th>ID</th><th>Name</th><th>Actions</th></tr>';
         data.forEach(item => {
             content += `<tr>
-                            <td>${item.id}</td>
-                            <td>${item.h1}</td>
+                            <td>${Number(item.id)}</td>
+                            <td>${Content.escapeHtml(item.h1)}</td>
                             <td>
-                                <button class="action-btn" onclick="editChillSpot(${item.id})">Edit</button>
-                                <button class="action-btn" onclick="deleteChillSpot(${item.id})">Delete</button>
+                                <button class="action-btn" onclick="editChillSpot(${Number(item.id)})">Edit</button>
+                                <button class="action-btn" onclick="deleteChillSpot(${Number(item.id)})">Delete</button>
                             </td>
                         </tr>`;
         });
@@ -46,11 +50,11 @@ $(document).ready(function() {
         let content = '<h2>Physical Attractions</h2><table><tr><th>ID</th><th>Name</th><th>Actions</th></tr>';
         data.forEach(item => {
             content += `<tr>
-                            <td>${item.id}</td>
-                            <td>${item.name}</td>
+                            <td>${Number(item.id)}</td>
+                            <td>${Content.escapeHtml(item.name)}</td>
                             <td>
-                                <button class="action-btn" onclick="editAttraction(${item.id})">Edit</button>
-                                <button class="action-btn" onclick="deleteAttraction(${item.id})">Delete</button>
+                                <button class="action-btn" onclick="editAttraction(${Number(item.id)})">Edit</button>
+                                <button class="action-btn" onclick="deleteAttraction(${Number(item.id)})">Delete</button>
                             </td>
                         </tr>`;
         });
@@ -62,10 +66,10 @@ $(document).ready(function() {
         let content = '<h2>News</h2><table><tr><th>ID</th><th>Headline</th><th>Actions</th></tr>';
         data.forEach(item => {
             content += `<tr>
-                            <td>${item.id}</td>
-                            <td>${item.headline}</td>
+                            <td>${Number(item.id)}</td>
+                            <td>${Content.escapeHtml(item.headline)}</td>
                             <td>
-                                <button class="action-btn" onclick="editNews(${item.id})">Edit</button>
+                                <button class="action-btn" onclick="editNews(${Number(item.id)})">Edit</button>
                             </td>
                         </tr>`;
         });
@@ -93,6 +97,8 @@ $(document).ready(function() {
                 <input type="text" name="phone" placeholder="Phone Number"><br>
                 <input type="text" name="address" placeholder="Address"><br>
                 <input type="text" name="site" placeholder="Website"><br>
+                <label>Opening hours (leave blank if unknown)<input type="text" name="opening_hours" maxlength="255" placeholder="e.g. Mon-Fri 09:00-17:00"></label><br>
+                <label>Activities (comma separated)<input type="text" name="activities" placeholder="Dining, Swimming"></label><br>
                 <button type="submit">Save</button>
             </form>
         `;
@@ -112,7 +118,7 @@ $(document).ready(function() {
     function getFormData(form) {
         let data = {};
         $(form).serializeArray().forEach(field => {
-            data[field.name] = field.value.trim() === '' ? null : field.value;
+            data[field.name] = field.value.trim();
         });
         return data;
     }
@@ -124,20 +130,22 @@ $(document).ready(function() {
             let form = `
                 <h2>Edit Chill Spot</h2>
                 <form id="chillspot-form">
-                    <input type="text" name="h1" value="${data.h1}" required><br>
-                    <input type="text" name="ln" value="${data.ln}" required><br>
-                    <input type="text" name="img" value="${data.img}"><br>
-                    <input type="text" name="h2" value="${data.h2}"><br>
-                    <input type="text" name="p" value="${data.p}"><br>
-                    <textarea name="details">${data.details}</textarea><br>
-                    <input type="text" name="img1" value="${data.img1}"><br>
-                    <input type="text" name="img2" value="${data.img2}"><br>
-                    <input type="text" name="img3" value="${data.img3}"><br>
-                    <input type="text" name="img4" value="${data.img4}"><br>
-                    <input type="text" name="map" value="${data.map}"><br>
-                    <input type="text" name="phone" value="${data.phone}"><br>
-                    <input type="text" name="address" value="${data.address}"><br>
-                    <input type="text" name="site" value="${data.site}"><br>
+                    <input type="text" name="h1" value="${Content.escapeHtml(data.h1)}" required><br>
+                    <input type="text" name="ln" value="${Content.escapeHtml(data.ln)}" required><br>
+                    <input type="text" name="img" value="${Content.escapeHtml(data.img)}"><br>
+                    <input type="text" name="h2" value="${Content.escapeHtml(data.h2)}"><br>
+                    <input type="text" name="p" value="${Content.escapeHtml(data.p)}"><br>
+                    <textarea name="details">${Content.escapeHtml(data.details)}</textarea><br>
+                    <input type="text" name="img1" value="${Content.escapeHtml(data.img1)}"><br>
+                    <input type="text" name="img2" value="${Content.escapeHtml(data.img2)}"><br>
+                    <input type="text" name="img3" value="${Content.escapeHtml(data.img3)}"><br>
+                    <input type="text" name="img4" value="${Content.escapeHtml(data.img4)}"><br>
+                    <input type="text" name="map" value="${Content.escapeHtml(data.map)}"><br>
+                    <input type="text" name="phone" value="${Content.escapeHtml(data.phone)}"><br>
+                    <input type="text" name="address" value="${Content.escapeHtml(data.address)}"><br>
+                    <input type="text" name="site" value="${Content.escapeHtml(data.site)}"><br>
+                    <label>Opening hours<input type="text" name="opening_hours" maxlength="255" value="${Content.escapeHtml(data.opening_hours)}"></label><br>
+                    <label>Activities (comma separated)<input type="text" name="activities" value="${Content.escapeHtml(data.activities)}"></label><br>
                     <button type="submit">Save</button>
                 </form>
             `;
@@ -147,7 +155,7 @@ $(document).ready(function() {
                 e.preventDefault();
                 const formData = JSON.stringify(getFormData(this));
                 // const formData = $(this).serialize();
-                console.log(formData)
+
 
                 $.post(url, { action: 'updateChillSpot', id: id, data: formData }, function(response) {
                     alert('Chill Spot updated successfully');
@@ -173,6 +181,10 @@ $(document).ready(function() {
             <form id="attraction-form">
                 <input type="text" name="name" placeholder="Name" required><br>
                 <input type="text" name="location" placeholder="Location" required><br>
+                <label>Province (comma separated for multiple provinces)<input type="text" name="province" placeholder="Southern"></label><br>
+                <label>Opening hours<input type="text" name="opening_hours" maxlength="255"></label><br>
+                <label>Contact number<input type="text" name="phone" maxlength="64"></label><br>
+                <label>Website<input type="text" name="site" placeholder="https://..."></label><br>
                 <input type="text" name="description" placeholder="Description"><br>
                 <input type="text" name="significant_features" placeholder="Significant Features"><br>
                 <textarea name="activities" placeholder="Activities (Format: activity1, activity2, activity3, activity4)"></textarea><br>
@@ -204,15 +216,19 @@ $(document).ready(function() {
             let form = `
                 <h2>Edit Attraction</h2>
                 <form id="attraction-form">
-                    <input type="text" name="name" value="${data.name}" required><br>
-                    <input type="text" name="location" value="${data.location}" required><br>
-                    <input type="text" name="description" value="${data.description}"><br>
-                    <input type="text" name="significant_features" value="${data.significant_features}"><br>
-                    <textarea name="activities">${data.activities}</textarea><br>
-                    <input type="text" name="img1" value="${data.img1}"><br>
-                    <input type="text" name="img2" value="${data.img2}"><br>
-                    <input type="text" name="img3" value="${data.img3}"><br>
-                    <input type="text" name="img4" value="${data.img4}"><br>
+                    <input type="text" name="name" value="${Content.escapeHtml(data.name)}" required><br>
+                    <input type="text" name="location" value="${Content.escapeHtml(data.location)}" required><br>
+                    <label>Province (comma separated)<input type="text" name="province" value="${Content.escapeHtml(data.province)}"></label><br>
+                    <label>Opening hours<input type="text" name="opening_hours" maxlength="255" value="${Content.escapeHtml(data.opening_hours)}"></label><br>
+                    <label>Contact number<input type="text" name="phone" maxlength="64" value="${Content.escapeHtml(data.phone)}"></label><br>
+                    <label>Website<input type="text" name="site" value="${Content.escapeHtml(data.site)}"></label><br>
+                    <input type="text" name="description" value="${Content.escapeHtml(data.description)}"><br>
+                    <input type="text" name="significant_features" value="${Content.escapeHtml(data.significant_features)}"><br>
+                    <textarea name="activities">${Content.escapeHtml(data.activities)}</textarea><br>
+                    <input type="text" name="img1" value="${Content.escapeHtml(data.img1)}"><br>
+                    <input type="text" name="img2" value="${Content.escapeHtml(data.img2)}"><br>
+                    <input type="text" name="img3" value="${Content.escapeHtml(data.img3)}"><br>
+                    <input type="text" name="img4" value="${Content.escapeHtml(data.img4)}"><br>
                     <button type="submit">Save</button>
                 </form>
             `;
@@ -247,9 +263,9 @@ $(document).ready(function() {
             let form = `
                 <h2>Edit News</h2>
                 <form id="news-form">
-                    <input type="text" name="img" value="${data.img}" required><br>
-                    <input type="text" name="headline" value="${data.headline}" required><br>
-                    <textarea name="news">${data.news}</textarea><br>
+                    <input type="text" name="img" value="${Content.escapeHtml(data.img)}" required><br>
+                    <input type="text" name="headline" value="${Content.escapeHtml(data.headline)}" required><br>
+                    <textarea name="news">${Content.escapeHtml(data.news)}</textarea><br>
                     <button type="submit">Save</button>
                 </form>
             `;

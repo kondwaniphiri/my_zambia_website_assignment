@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="author" content="Kondwani Phiri">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <title>Contact | My Zambia</title>
+    <link rel="stylesheet" href="/stylesheets/nav.css">
+    <link rel="stylesheet" href="/stylesheets/navMobile.css">
+    <link rel="stylesheet" href="/stylesheets/fontawesome-free-6.6.0-web/css/all.min.css">
+    <link rel="stylesheet" href="/stylesheets/site-ui.css">
+    <link rel="stylesheet" href="/stylesheets/email.css">
+    <link rel="stylesheet" href="/stylesheets/scrollbars.css">
+    <script src="/javascripts/jquery-3.6.0.min.js"></script>
+    <script src="/javascripts/security.js"></script>
+    <script src="/javascripts/content.js"></script>
+</head>
+<body>
+    <%- include('partials/navigation') %>
+    <section class="search"><div class="topLayer"><input type="text" class="searchBar" aria-label="Search locations" placeholder="Search places"><span class="close">X</span></div><div class="searchContent"></div></section>
+    <main class="email-panel">
+        <h1>Contact My Zambia</h1>
+        <p>Send us a question or tell us about a place we should feature.</p>
+        <form class="mail-form contact-form" action="/email/contact" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <label for="contact-name">Your name</label><input id="contact-name" type="text" name="name" maxlength="100" autocomplete="name" required>
+            <label for="contact-email">Email address</label><input id="contact-email" type="email" name="email" maxlength="254" autocomplete="email" required>
+            <label for="contact-subject">Subject</label><input id="contact-subject" type="text" name="subject" maxlength="150" required>
+            <label for="contact-message">Message</label><textarea id="contact-message" name="message" rows="7" maxlength="10000" required></textarea>
+            <div class="mail-honeypot" aria-hidden="true"><label>Leave this blank<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <button type="submit">Send message</button>
+            <p class="mail-status" role="status" aria-live="polite"></p>
+        </form>
+        <p><a href="/">Back to My Zambia</a></p>
+    </main>
+    <script src="/javascripts/script.js"></script>
+    <script src="/javascripts/search-data.js"></script>
+    <script src="/javascripts/search.js"></script>
+    <script src="/javascripts/mail-forms.js"></script>
+</body>
+</html>

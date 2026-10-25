@@ -1,31 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="author" content="Kondwani Phiri">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="stylesheets/login.css">
-    <link rel="stylesheet" href="stylesheets/aos.css">
-    <link rel="stylesheet" href="stylesheets/fontawesome/css/all.css">
-    <script src="javascripts/jquery-3.6.0.min.js"></script>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <title>Login | My Zambia</title>
+    <link rel="stylesheet" href="/stylesheets/login.css">
+    <link rel="stylesheet" href="/stylesheets/fontawesome-free-6.6.0-web/css/all.min.css">
+    <script src="/javascripts/jquery-3.6.0.min.js"></script>
+    <script src="/javascripts/security.js"></script>
+    <link rel="stylesheet" href="/stylesheets/scrollbars.css">
 </head>
-<body>
-    <div class="auth-container">
-        <h2>Login</h2>
-        <form id="loginForm" action="/login" method="POST">
-            <div class="input-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+<body class="auth-page">
+    <main class="auth-layout">
+        <section class="auth-scenery" aria-label="Discover Zambia">
+            <a class="auth-brand" href="/login" aria-label="My Zambia home"><img src="/images/logo.png" alt="My Zambia"><span>MY ZAMBIA</span></a>
+            <div class="auth-story">
+                <h1>Explore Zambia</h1>
+                <p>Tourist attractions, restaurants and places to stay.</p>
             </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+        </section>
+        <section class="auth-panel" aria-labelledby="auth-title">
+            <div class="auth-container">
+                <h2 id="auth-title">Log in</h2>
+                <p class="auth-intro">Log in to your My Zambia account.</p>
+                <% if (typeof error != 'undefined' && error) { %>
+                <p class="auth-error" role="alert"><%= error %></p>
+                <% } %>
+                <form id="loginForm" action="/login" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <div class="input-group"><label for="email">Email address</label><input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required></div>
+                    <div class="input-group"><label for="password">Password</label><div class="password-field"><input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password"  required><button class="password-toggle" type="button" aria-label="Show password" aria-controls="password" aria-pressed="false">Show</button></div></div>
+                    <button class="auth-submit" type="submit"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Log in</button>
+                </form>
+                <div class="auth-divider"><span>or</span></div>
+                <form action="/guest" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="auth-guest" type="submit">Continue as guest</button></form>
+                <p class="auth-switch">New to My Zambia? <a href="/signup">Create an account</a></p>
             </div>
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="/signup">Sign Up</a></p>
-        <p> <a href="/guest">Continue as Guest</a></p>
-    </div>
-    <script src="/scripts.js"></script>
+        </section>
+    </main>
+    <script src="/javascripts/login.js"></script>
 </body>
 </html>

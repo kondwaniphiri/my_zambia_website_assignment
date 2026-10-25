@@ -1,8 +1,9 @@
+// Author: Kondwani Phiri
 let data;
 let attr;
 let news;
 $.ajax({
-    url: "http://localhost:3000/database/action",
+    url: "/database/action",
     method: "POST",
     data: { action: 'getData' },
     dataType: "json",
@@ -32,13 +33,11 @@ function loadNews(){
     `;
     for(let i=0; i<news.length; i++){
         updatedNews += `<div class="newsCard" data-aos="fade-down" data-aos-delay="400">
-                        <div class="imgCont"><img src="${news[i].img}" alt=""> </div>
-                        <h3>${news[i].headline}</h3>
-                        <p>${news[i].news}</p>
+                        <div class="imgCont"><img src="${Content.escapeHtml(Content.safeUrl(news[i].img, 'image'))}" alt=""> </div>
+                        <h3>${Content.escapeHtml(news[i].headline)}</h3>
+                        <p>${Content.escapeHtml(news[i].news)}</p>
                         </div>`
     }
 
     $(".newsFeed").html(updatedNews);
-console.log(data)
-
 }

@@ -1,27 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="author" content="Kondwani Phiri">
+    <meta name="csrf-token" content="<%= csrfToken %>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Zambia Dashboard</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/stylesheets/scrollbars.css">
 </head>
 <body>
+    <header class="admin-header">
+        <a class="admin-brand" href="/"><img src="/images/logo.png" alt=""><span>MY ZAMBIA</span></a>
+        <nav aria-label="Account"><a href="/">View website</a><a href="/logout">Log out</a></nav>
+    </header>
     <div id="dashboard">
-        <h1>My Zambia Dashboard</h1>
+        <section class="admin-hero">
+            <div><p class="admin-eyebrow">MY ZAMBIA · ADMINISTRATION</p>
+            <h1>My Zambia Dashboard</h1>
+            <p>Keep places, stories and visitor information up to date.</p></div>
+        </section>
+        <details class="admin-access"><summary>Your administrator access</summary><ul>
+            <li>Add, edit and delete Chill Spots and Physical Attractions.</li>
+            <li>Edit news articles and location details, activities and opening hours.</li>
+            <li>Read contact messages and save newsletter drafts.</li>
+            <li>Queue newsletters for confirmed subscribers when SMTP is configured.</li>
+        </ul><p>Account roles are controlled by ADMIN_USER_IDS on the server. Reviews remain tied to their authors.</p></details>
 
-        <div id="sections">
-            <button id="chillspots-btn">Chill Spots</button>
-            <button id="attractions-btn">Physical Attractions</button>
-            <button id="news-btn">News</button>
+        <div id="sections" aria-label="Dashboard sections">
+            <button id="chillspots-btn" type="button" aria-pressed="false">Chill Spots</button>
+            <button id="attractions-btn" type="button" aria-pressed="false">Physical Attractions</button>
+            <button id="news-btn" type="button" aria-pressed="false">News</button>
+            <button id="email-btn" type="button" aria-pressed="false">Email &amp; newsletter</button>
         </div>
 
         <div id="content">
-            <!-- Content will be dynamically loaded here -->
+            <p>Select a section to manage its content.</p>
         </div>
     </div>
 
-    <script src="jquery-3.6.0.min.js"></script>
+    <script src="/javascripts/jquery-3.6.0.min.js"></script>
+    <script src="/javascripts/security.js"></script>
+    <script src="/javascripts/content.js"></script>
     <script src="scripts.js"></script>
+    <script src="email.js"></script>
+    <script src="appearance.js"></script>
 </body>
 </html>

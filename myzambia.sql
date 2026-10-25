@@ -1,3 +1,4 @@
+-- Author: Kondwani Phiri
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -218,13 +219,14 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
+-- Sample reviewers have random, discarded passwords and cannot be used to log in.
 INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
-(1, 'Peter', 'peter@gmail.com', 'peter'),
-(2, 'Jonathan', 'jonathan@gmail.com', 'Jonathan'),
-(3, 'Njavwa', 'Njavwa@gmail.com', 'Njavwa'),
-(4, 'Mubelesi', 'mubelesi@gmail.com', 'mubelesi'),
-(5, 'Leo', 'leo@gmail.com', 'leo'),
-(6, 'james', 'james@gmail.com', 'james');
+(1, 'Sample visitor 1', 'visitor1@example.invalid', '$2b$12$48IHzxbYwLmpaTNl2hqMy.oDWJh1r.QLr7rglDggGkXZ3rgk08aNO'),
+(2, 'Sample visitor 2', 'visitor2@example.invalid', '$2b$12$7JEApkS3XyQwhO49QTddZuG2oZRXqMjiCqtcEYWXZxbzFFRB2/vqO'),
+(3, 'Sample visitor 3', 'visitor3@example.invalid', '$2b$12$mzilTO2pvVAN90gUdPMnTOcZIUL58jsOG4tWfAtHt0j6fEftK3nJ.'),
+(4, 'Sample visitor 4', 'visitor4@example.invalid', '$2b$12$0hvTrji4PumoOZBf8ybGUunBRx408BJS4E3OFlUlI8.6r4iRD/zwS'),
+(5, 'Sample visitor 5', 'visitor5@example.invalid', '$2b$12$gbc6ptwfZ9tbFVxP/ptDl.lpNGVTe3roXVxJ391OHOJ/q1s5RhsuG'),
+(6, 'Sample visitor 6', 'visitor6@example.invalid', '$2b$12$4CeNCnqVOrCogtdF4EW59ujjYu6YpcMyIbqMbikM5VBiRpHweFFaC');
 
 --
 -- Indexes for dumped tables

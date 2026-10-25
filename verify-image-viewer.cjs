@@ -1,0 +1,37 @@
+// Author: Kondwani Phiri
+﻿var assert = require('assert');
+var fs = require('fs');
+var vm = require('vm');
+var elements = [];
+function Node(tag) { this.tag=tag; this.children=[]; this.attrs={}; this.dataset={}; this.events={}; this.style={}; this.nodeType=1; this.isConnected=true; elements.push(this); }
+Node.prototype.appendChild=function(child) { if(child.parentNode){var a=child.parentNode.children;a.splice(a.indexOf(child),1);} child.parentNode=this;this.children.push(child);return child; };
+Node.prototype.insertBefore=function(child,before) {child.parentNode=this;this.children.splice(this.children.indexOf(before),0,child);};
+Node.prototype.setAttribute=function(k,v){this.attrs[k]=v;};
+Node.prototype.getAttribute=function(k){return this.attrs[k] || null;};
+Node.prototype.removeAttribute=function(k){delete this.attrs[k];};
+Node.prototype.addEventListener=function(k,cb){this.events[k]=cb;};
+Node.prototype.focus=function(){document.activeElement=this;};
+Node.prototype.matches=function(){return this.tag=='img' && !this.className;};
+Node.prototype.closest=function(selector){var node=this.parentNode;while(node){if(node.className=='card' && selector.includes('.card'))return node;node=node.parentNode;}return null;};
+Node.prototype.querySelector=function(selector){if(selector=='h2, h1, h3')return this.heading;if(selector=='.det h1')return null;return elements.find(function(n){return '.'+n.className==selector;});};
+Node.prototype.querySelectorAll=function(selector){var found=[];function walk(n){n.children.forEach(function(child){if(selector=='.photo-frame > img' ? child.tag=='img' && child.parentNode.className=='photo-frame' : child.tag=='img' && !child.className)found.push(child);walk(child);});}walk(this);return found;};
+Node.prototype.showModal=function(){this.open=true;};
+Node.prototype.close=function(){this.open=false;this.events.close();};
+Object.defineProperty(Node.prototype,'innerHTML',{get:function(){return this._html;},set:function(value){this._html=value;if(this.tag!='dialog')return;['viewer-image','viewer-caption','viewer-count','viewer-prev','viewer-next','viewer-close'].forEach(function(name){var node=new Node(name=='viewer-image'?'img':'button');node.className=name;this.appendChild(node);},this);}});
+var document=new Node('document');document.nodeType=9;document.body=new Node('body');document.appendChild(document.body);document.createElement=function(tag){return new Node(tag);};
+var card=new Node('section');card.className='card';card.heading={textContent:'Victoria Falls'};document.body.appendChild(card);
+var first=new Node('img');first.attrs.src='images/attractions/victoriafalls/1.jpg';card.appendChild(first);
+var second=new Node('img');second.attrs.src='images/attractions/victoriafalls/2.jpg';card.appendChild(second);
+var observe;
+vm.runInNewContext(fs.readFileSync('public/javascripts/image-viewer.js','utf8'),{document:document,Content:require('./public/javascripts/content'),MutationObserver:function(callback){observe=callback;this.observe=function(){};}});
+var triggers=elements.filter(function(n){return n.className=='photo-open';});assert.equal(triggers.length,2);assert(triggers[0].children[0].innerHTML.includes('<svg'));assert.equal(triggers[0].getAttribute('aria-label'),'View image: Victoria Falls');
+triggers[0].events.click({stopPropagation:function(){}});
+var dialog=elements.find(function(n){return n.tag=='dialog';});var full=document.querySelector('.viewer-image');
+assert(dialog.open);assert.equal(document.body.style.overflow,'hidden');assert.equal(full.alt,'Victoria Falls');
+dialog.events.keydown({key:'ArrowRight',preventDefault:function(){}});assert(full.src.endsWith('2.jpg'));
+dialog.events.keydown({key:'ArrowLeft',preventDefault:function(){}});assert(full.src.endsWith('1.jpg'));
+full.events.error();assert(full.hidden);assert(document.querySelector('.viewer-caption').textContent.includes('could not be loaded'));
+document.querySelector('.viewer-close').events.click();assert(!dialog.open);assert.equal(document.activeElement,triggers[0]);assert.equal(document.body.style.overflow,undefined);
+var third=new Node('img');third.attrs.src='images/attractions/victoriafalls/3.jpg';card.appendChild(third);observe([{addedNodes:[third]}]);assert.equal(elements.filter(function(n){return n.className=='photo-open';}).length,3);
+observe([{addedNodes:[third]}]);assert.equal(elements.filter(function(n){return n.className=='photo-open';}).length,3);
+console.log('PASS: photo captions, open/close, gallery navigation, keyboard controls, failed images, focus restoration and dynamically added photos.');

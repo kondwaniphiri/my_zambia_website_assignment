@@ -1,0 +1,15 @@
+
+.env
+.env.*
+!.env.example
+
+.local/
+
+# Installed dependencies and local development output
+node_modules/
+*.log
+coverage/
+test-results/
+playwright-report/
+.DS_Store
+Thumbs.db

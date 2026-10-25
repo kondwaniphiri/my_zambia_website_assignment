@@ -1,0 +1,11 @@
+/* Author: Kondwani Phiri */
+﻿.email-panel { box-sizing: border-box; width: min(680px, 90%); margin: 50px auto; padding: 30px; border: 1px solid #e2d7ca; border-radius: 8px; background: #fffdf9; font: 14px/1.7 Arial, sans-serif; color: #392b28; }
+.email-panel h1 { font: normal 34px/1.2 Georgia, serif; color: #702d2d; margin: 0 0 18px; }
+.email-panel > p { margin: 15px 0; }
+.email-panel label { display: block; font-weight: bold; margin: 18px 0 6px; }
+.email-panel input, .email-panel textarea { box-sizing: border-box; width: 100%; padding: 12px; font: 15px Arial, sans-serif; border: 1px solid #bfae9f; border-radius: 5px; }
+.email-panel button { min-height: 44px; padding: 10px 20px; border: 0; border-radius: 5px; background: #702d2d; color: white; cursor: pointer; margin-top: 18px; }
+.email-panel a { color: #702d2d; text-decoration: underline; }
+.email-panel button:disabled { opacity: .6; cursor: wait; }
+.mail-honeypot { display: none; }
+.email-panel input:focus-visible, .email-panel textarea:focus-visible, .email-panel button:focus-visible { outline: 2px solid #b78a43; outline-offset: 3px; }

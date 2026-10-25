@@ -1,0 +1,10 @@
+<%# Author: Kondwani Phiri %>
+﻿<form class="newsletter-form mail-form" action="/email/subscribe" method="POST">
+    <h3>Newsletter</h3>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <label for="newsletter-email">Email address</label>
+    <div class="newsletter-input"><input id="newsletter-email" type="email" name="email" maxlength="254" autocomplete="email" required><button type="submit">Subscribe</button></div>
+    <label class="newsletter-consent"><input type="checkbox" name="consent" value="yes" required> Email me My Zambia news and places to visit. I can unsubscribe at any time.</label>
+    <div class="mail-honeypot" aria-hidden="true"><label>Leave this blank<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+    <p class="mail-status" role="status" aria-live="polite"></p>
+</form>

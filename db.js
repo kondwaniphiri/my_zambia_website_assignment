@@ -1,15 +1,19 @@
+// Author: Kondwani Phiri
+require('./config/env');
 const mysql = require('mysql2/promise');
 
 const config = {
-  host: 'localhost',
-  user: 'root',
-  password: 'kondwani1',
-  database: 'myzambia'
+  host: process.env.DB_HOST || 'localhost',
+  port: Number(process.env.DB_PORT || 3306),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME || 'myzambia'
 };
 
 // Function to connect to the database
 async function connectToDatabase() {
   try {
+    if (!config.user || typeof config.password != 'string') throw new Error('Set DB_USER and DB_PASSWORD before starting the application.');
     const connection = await mysql.createConnection(config);
     console.log('Connected to MySQL database');
     return connection;

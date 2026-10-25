@@ -1,57 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="author" content="Kondwani Phiri">
+    <meta name="csrf-token" content="<%= csrfToken %>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My zambia - Physical Attractions</title>
     <link rel="stylesheet" href="stylesheets/nav.css">
     <link rel="stylesheet" href="stylesheets/navMobile.css">
-    <link rel="stylesheet" href="stylesheets/Attractions.css">
-    <link rel="stylesheet" href="stylesheets/AttractionsMobile.css">
     <link rel="stylesheet" href="stylesheets/aos.css">
-    <link rel="stylesheet" href="stylesheets/fontawesome/css/all.css">
     <link rel="stylesheet" href="stylesheets/fontawesome-free-6.6.0-web/css/all.css">
     <script src="javascripts/jquery-3.6.0.min.js"></script>
+    <script src="/javascripts/security.js"></script>
+    <script src="/javascripts/content.js"></script>
+    <link rel="stylesheet" href="/stylesheets/site-ui.css">
+    <link rel="stylesheet" href="/stylesheets/places.css">
+    <link rel="stylesheet" href="/stylesheets/attractions.css">
+    <link rel="stylesheet" href="/stylesheets/attractionsMobile.css">
+    <link rel="stylesheet" href="/stylesheets/legacy-listings.css">
+    <link rel="stylesheet" href="/stylesheets/scrollbars.css">
 </head>
 <body>
 
-  <header>
-
-  <nav id="nav1">
-    <img src="images/logo.png" alt="" class="logo">
-    <ul class="links">
-      <li><a href="/">Home</a></li>
-      <li><a href="chill">Chill Spots</a></li>
-      <li><a href="attractions">Physical Attractions</a></li>
-      <li><a class="useruser"><i class="fa fa-user"></i> <%=username %></a></li>
-      <li><a href="logout"><i class="fa-solid fa-right-from-bracket"></i></a></li>
-      <div>
-        <input type="text" name="search" id="search" placeholder="Search">
-      </div>
-    </ul>
-  </nav>
-
-  <nav id="nav2">
-    <img src="images/logo.png" alt="" class="logo">
-    <span id="navBarTrigger"><i class="fas fa-bars" ></i><span id="x">X</span></span>
-    <ul class="links2">
-      <div>
-        <input type="text" name="search" id="search2" placeholder="Search">
-      </div>
-      <li><a class="useruser"><i class="fa fa-user"></i> <%=username %></a></li>
-      <li><a href="/">-> Home</a></li>
-      <li><a href="chill">-> Chill Spots</a></li>
-      <li><a href="attractions">-> Physical Attractions</a></li>
-      <li><a href="logout"><i class="fa-solid fa-right-from-bracket"> </i> Logout</a></li>
-
-    </ul>
-  </nav>
-
-</header>
+  <%- include('partials/navigation') %>
 
 <section class="search">
   <div class="topLayer">
-    <input type="text" class="searchBar">
+    <input type="text" class="searchBar" aria-label="Search locations" placeholder="Search places by name">
     <span class="close">X</span>
   </div>
 
@@ -59,91 +34,31 @@
      You are able to search
   </div>
 </section>
-  
 
+<main class="places-page legacy-page" data-kind="attractions" data-layout="legacy">
     <section class="attSlides">
         <img src="images/attractions/bg.jpg" alt="">
         <div class="landingDetails">
-        <h1>Explore Zambia's Stunning Physical Attractions</h1>
+        <h1 id="places-title">Explore Zambia's Stunning Physical Attractions</h1>
         <p>Journey through Zambia's remarkable landscapes and discover awe-inspiring physical attractions. From the mighty Victoria Falls to the tranquil Luangwa Valley, uncover the natural beauty and geological wonders that define Zambia's breathtaking scenery.</p>
         <img src="images/logo.png" alt="">
       </div>
     </section>
-
-    <section class="attractions">
-
-        <div class="card leftCard">
-            <div class="imgContainer">
-              <img src="images/attractions/victoriafalls/1.jpg" alt="">
-            </div>
-            <div class="details">
-              <h2>Victoria Falls</h2>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti fuga 
-                asperiores sit nam similique id, aspernatur non enim voluptatibus minima!
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum, sequi!
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, atque.
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta, culpa!
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, nemo.
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, enim.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, placeat?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, amet?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, voluptate.
-              </p>
-              <h3>Activities To Do:</h3>
-              <ul>
-                <li>jumping</li>
-                <li>dancing</li>
-                <li>swimming</li>
-                <li>laughing</li>
-              </ul>
-            </div>
-            <div class="galleryContainer">
-              <div class=""><img src="images/attractions/victoriafalls/2.jpg" alt=""></div>
-              <div class=""><img src="images/attractions/victoriafalls/3.jpg" alt=""></div>
-              <div class=""><img src="images/attractions/victoriafalls/4.jpg" alt=""></div>
-            </div>
-          <div class="space"></div>
-        </div>
-
-        <div class="card rightCard">
-          <div class="details">
-            <h2>Victoria Falls</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti fuga 
-              asperiores sit nam similique id, aspernatur non enim voluptatibus minima!
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum, sequi!
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, atque.
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta, culpa!
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, nemo.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, enim.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio, placeat?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, amet?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, voluptate.
-            </p>
-            <h3>Activities To Do:</h3>
-            <ul>
-              <li>jumping</li>
-              <li>dancing</li>
-              <li>swimming</li>
-              <li>laughing</li>
-            </ul>
-          </div>
-          <div class="imgContainer">
-            <img src="images/attractions/victoriafalls/1.jpg" alt="">
-          </div>
-          <div class="space"></div>
-          <div class="galleryContainer">
-            <div class=""><img src="images/attractions/victoriafalls/2.jpg" alt=""></div>
-            <div class=""><img src="images/attractions/victoriafalls/3.jpg" alt=""></div>
-            <div class=""><img src="images/attractions/victoriafalls/4.jpg" alt=""></div>
-          </div>
-          
-      </div>
-
-
+    <section class="place-directory" aria-label="Attraction directory">
+      <form class="place-filters" aria-label="Filter places">
+        <div><label for="place-query">Find a place</label><input id="place-query" type="search" placeholder="Name or location" autocomplete="off"></div>
+        <div><label for="place-province">Province</label><select id="place-province"><option value="">All provinces</option></select></div>
+        <div><label for="place-activity">Activity</label><select id="place-activity"><option value="">All activities</option></select></div>
+        <button type="reset" class="filter-reset">Clear filters</button>
+      </form>
+      <div class="places-results"><p id="place-results" role="status" aria-live="polite">Loading places&hellip;</p><span>Discover at your own pace</span></div>
+      <div class="attractions legacy-attractions" id="place-grid" aria-busy="true"></div>
+      <div class="places-empty" hidden><h2>No places match your filters</h2><p>Try another province or activity, or clear your filters to see all places.</p><button type="button" class="empty-reset">Clear filters</button></div>
+      <noscript><p>Enable JavaScript to browse and filter the location directory.</p></noscript>
     </section>
+</main>
 
-    
-      <footer>
+<footer>
         <div class="socialSection">
           <img src="images/logo.png" alt="">
           <div class="social">
@@ -155,16 +70,12 @@
           </div>
         </div>
         <div class="leftSide">
-          <div class="top">
-            <h3>Subscribe For our News Letter</h3>
-            <input type="email">
-            <button>Send</button>
-          </div>
+          <div class="top"><%- include('partials/newsletter') %></div>
           <div class="bottom">
             <a href="#">Cookie Policy</a>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms and Conditions</a>
-            <a href="#">Contact Us</a>
+            <a href="/contact">Contact Us</a>
             <a href="#">About Us</a>
           </div>
         </div>
@@ -174,9 +85,14 @@
 
 
         <script src="javascripts/script.js"></script>
-        <script src="javascripts/attractions.js"></script>
         <script src="javascripts/aos.js"></script>
+        <script src="/javascripts/places.js"></script>
+        <script src="/javascripts/legacy-listings.js"></script>
+        <script src="/javascripts/directory.js"></script>
         <script src="javascripts/search.js"></script>
         <script>AOS.init();</script>
+    <script src="/javascripts/image-viewer.js"></script>
+    <script src="/javascripts/motion.js"></script>
+    <script src="/javascripts/mail-forms.js"></script>
 </body>
 </html>

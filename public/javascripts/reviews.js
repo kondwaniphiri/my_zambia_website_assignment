@@ -1,248 +1,89 @@
-let reviews;
-let loc = $("#locationId").text();
-if($(".useruser").text()=='Guest'|| $(".useruser").text()==''){
-    $(".reviewActions").hide();
-}
-$(".addReview").hide();
-$.ajax({
-    url: "http://localhost:3000/database/action",
-    method: "POST",
-    data: { action: 'getData' },
-    dataType: "json",
-    success: function(result) {
-        // Check if data is in expected format
-        if (result && result.result) {
-            data=result.result
-            reviews = result.result4;
-            loadReviews()
-        } else {
-            console.error('Unexpected response format:', data);
-        }
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-        // Log the error details
-        console.error('AJAX request failed.');
-        console.error('Status:', textStatus);
-        console.error('Error:', errorThrown);
-        console.error('Response:', jqXHR.responseText);
+// Author: Kondwani Phiri
+﻿var reviews = [];
+var reviewAction = '';
+var reviewBusy = false;
+var reviewLocation = $.trim($('#locationId').text());
+var reviewUser = $.trim($('.userId').first().text());
+var reviewForm = $('.addReview');
+
+reviewForm.hide();
+if (!(Number(reviewUser) > 0)) $('.reviewActions').hide();
+
+function reviewStars(value) {
+    var rating = Math.max(0, Math.min(5, Number(value) || 0));
+    var html = '';
+    for (var i = 0; i < 5; i++) {
+        var icon = rating >= i + 1 ? 'fa-solid fa-star' :
+            (rating > i ? 'fa-solid fa-star-half-stroke' : 'fa-regular fa-star');
+        html += '<i class="' + icon + '"></i>';
     }
+    return html;
+}
+
+function loadReviews() {
+    var container = $('.ratingContainer').empty();
+    for (var i = 0; i < reviews.length; i++) {
+        if (String(reviews[i].locationId) != reviewLocation) continue;
+        var card = $('<div>', { 'class': 'ratingCard' });
+        // Text nodes keep names and comments from becoming executable HTML.
+        $('<h3>', { 'class': 'name' }).text(reviews[i].name).appendTo(card);
+        $('<div>', { 'class': 'stars' }).html(reviewStars(reviews[i].rating)).appendTo(card);
+        $('<p>').text(reviews[i].comment).appendTo(card);
+        card.appendTo(container);
+    }
+    if (!container.children().length) {
+        $('<h1>').text(Number(reviewUser) > 0 ? "There aren't any reviews." :
+            "There aren't any reviews. Please log in to add a review.").appendTo(container);
+    }
+}
+
+function findOwnReview() {
+    for (var i = 0; i < reviews.length; i++) {
+        if (String(reviews[i].userId) == reviewUser && String(reviews[i].locationId) == reviewLocation) return reviews[i];
+    }
+    return null;
+}
+
+function openReview(action) {
+    if (reviewBusy) return;
+    var own = findOwnReview();
+    if (action == 'addReview' && own) return alert('You have already reviewed this location. Try editing your review.');
+    if (action != 'addReview' && !own) return alert('Add a review first.');
+    reviewAction = action;
+    $('#inputRating').val(own ? own.rating : 5);
+    $('#inputComment').val(own ? own.comment : '');
+    $('.stars2').html(reviewStars($('#inputRating').val()));
+    $('.addButton').toggle(action == 'addReview');
+    $('.editButton').toggle(action == 'updateReview');
+    $('.deleteButton').toggle(action == 'deleteReview');
+    reviewForm.show();
+}
+
+// Bind each handler once, outside the button callbacks.
+$('.addRating').off('click.reviews').on('click.reviews', function() { openReview('addReview'); });
+$('.editRating').off('click.reviews').on('click.reviews', function() { openReview('updateReview'); });
+$('.deleteRating').off('click.reviews').on('click.reviews', function() { openReview('deleteReview'); });
+$('#inputRating').off('input.reviews').on('input.reviews', function() {
+    $('.stars2').html(reviewStars(this.value));
+});
+reviewForm.find('.close').off('click.reviews').on('click.reviews', function() {
+    if (!reviewBusy) { reviewAction = ''; reviewForm.hide(); }
+});
+reviewForm.off('submit.reviews').on('submit.reviews', function(event) {
+    event.preventDefault();
+    if (reviewBusy || !reviewAction) return;
+    if (reviewAction == 'deleteReview' && !confirm('Are you sure you want to delete this review?')) return;
+    var data = { locId: reviewLocation, rating: $('#inputRating').val(), comment: $('#inputComment').val() };
+    reviewBusy = true;
+    reviewForm.find('button').prop('disabled', true);
+    $.post('/database/action', { action: reviewAction, data: JSON.stringify(data) })
+        .done(function() { window.location.reload(); })
+        .fail(function(xhr) { alert(xhr.responseJSON && xhr.responseJSON.error || 'Could not save your review. Please try again.'); })
+        .always(function() { reviewBusy = false; reviewForm.find('button').prop('disabled', false); });
 });
 
-function loadReviews(){
-
-    let content = ``
-    for(let i = 0; i<reviews.length; i++){
-        if(reviews[i].locationId == loc){
-            content += `
-            <div class="ratingCard">
-           <h3 class="name"> ${reviews[i].name}</h3>
-     <div class="stars">
-       ${stars(reviews[i].rating)}
-     </div>
-     <p>${reviews[i].comment}</p>
-    </div>
-       `
-        }
-
-    }
-
-    if(content==""){
-        if($(".useruser").text()=='Guest'|| $(".useruser").text()==''){
-        content += `<h1> There aren't any Reviews. Please login to add a Review. <a href="logout">Login <i class="fa-solid fa-right-from-bracket"></i></a></h1>`
-        }else{
-        content += "<h1> There aren't any Reviews </h1>"
-        }
-    }
-
-    $(".ratingContainer").html(content);
-
-    function stars(n){
-        let stars= ``;
-
-        if((n%1)>0){
-            let nn = Math.floor(n);
-            for(let i=0; i<nn; i++){
-                stars += `
-                <i class="fa-solid fa-star"></i>
-              `
-            }
-            stars += `
-                <i class="fa-solid fa-star-half-stroke"></i>
-              `
-            for(let i=0; i<(5-(nn+1)); i++){
-                stars += `
-                <i class="fa-regular fa-star"></i>
-              `
-            }
-        }else{
-            for(let i=0; i<n; i++){
-                stars += `
-                <i class="fa-solid fa-star"></i>
-                `
-            }
-            for(let i=0; i<5-n;i++){
-                stars += `
-                <i class="fa-regular fa-star"></i>
-                `
-            }
-        }
-
-        return stars;
-        
-    }
-
-    $(".addRating").click(function(){
-        let status = false;
-        let uId = $(".userId").text();
-        let locId = $(".locId").text();
-        let sendData = {};
-
-        for(let i = 0; i<reviews.length; i++){
-            if(reviews[i].userId == uId && reviews[i].locationId == locId){
-                alert("you have already rated this chill spot, try editing")
-                status = false;
-                break;
-            }else{
-                status = true;
-            }
-        }
-
-        if(status){
-            $(".addReview").show();
-            $(".addButton").show();
-            $(".editButton").hide();
-            $(".deleteButton").hide();
-
-            $(".addReview").submit(function(e){
-                e.preventDefault();
-                sendData.uId = uId;
-                sendData.locId = locId;
-                sendData.rating = $("#inputRating").val();
-                sendData.comment = $("#inputComment").val();
-
-                send = JSON.stringify(sendData);
-                console.log(sendData);
-
-                $.post("http://localhost:3000/database/action", { action: 'addReview',data: send}, function(response) {
-                    alert('review updated successfully');
-                    $(".addReview").hide();
-                    location.reload();
-                });
-
-            })
-        }
-
-
-        $("#inputRating").keyup(function (e) { 
-            $(".stars2").html(stars($("#inputRating").val()))
-        });
-    })
-
-
-    $(".editRating").click(function(){
-        let status;
-        let uId = $(".userId").text();
-        let locId = $(".locId").text();
-        let rating, comment;
-        let sendData = {};
-
-        for(let i = 0; i<reviews.length; i++){
-            if(reviews[i].userId == uId && reviews[i].locationId == locId){
-                status = true;
-                rating = reviews[i].rating;
-                comment = reviews[i].comment;
-                break;
-            }else{
-                status = false;
-            }
-        }
-        if(!status){
-            alert("There isn't any review for you to edit. Add one review!")
-        }else{
-            $(".addReview").show();
-            $(".addButton").hide();
-            $(".editButton").show();
-            $(".deleteButton").hide();
-            $("#inputRating").val(rating);
-            $(".stars2").html(stars(rating));
-            $("#inputComment").val(comment);
-
-            $(".addReview").submit(function(e){
-                e.preventDefault();
-                sendData.uId = uId;
-                sendData.locId = locId;
-                sendData.rating = $("#inputRating").val();
-                sendData.comment = $("#inputComment").val();
-
-                send = JSON.stringify(sendData);
-                console.log(sendData);
-
-                $.post("http://localhost:3000/database/action", { action: 'updateReview',data: send}, function(response) {
-                    alert('review updated successfully');
-                    $(".addReview").hide();
-                    location.reload();
-                });
-
-            })
-
-    }
-    })
-
-
-    $(".deleteRating").click(function(){
-
-
-        let status;
-        let uId = $(".userId").text();
-        let locId = $(".locId").text();
-        let rating, comment;
-        let sendData = {};
-
-        for(let i = 0; i<reviews.length; i++){
-            if(reviews[i].userId == uId && reviews[i].locationId == locId){
-                status = true;
-                rating = reviews[i].rating;
-                comment = reviews[i].comment;
-                break;
-            }else{
-                status = false;
-            }
-        }
-        if(!status){
-            alert("There isn't any review for you to delete. Add one review!")
-        }else{
-            $(".addReview").show();
-            $(".addButton").hide();
-            $(".editButton").hide();
-            $(".deleteButton").show();
-            $("#inputRating").val(rating);
-            $(".stars2").html(stars(rating));
-            $("#inputComment").val(comment);
-
-            $(".addReview").submit(function(e){
-                e.preventDefault();
-                sendData.uId = uId;
-                sendData.locId = locId;
-
-                send = JSON.stringify(sendData);
-                console.log(sendData);
-
-                if(confirm("Are you sure you want to delete this review?")){
-                    $.post("http://localhost:3000/database/action", { action: 'deleteReview',data: send}, function(response) {
-                        alert('review Deleted successfully');
-                        $(".addReview").hide();
-                        location.reload();
-                    });
-                }else{
-                    $(".addReview").hide();
-
-                }
-
-            })
-        }
-    })
-
-    $(".close").click(function(){
-        $(".addReview").hide();
-    })
-}
+$.ajax({
+    url: '/database/action', method: 'POST', data: { action: 'getData' }, dataType: 'json',
+    success: function(result) { reviews = result.result4 || []; loadReviews(); },
+    error: function() { $('.ratingContainer').text('Could not load reviews. Please reload the page.'); }
+});

@@ -1,34 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="author" content="Kondwani Phiri">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="stylesheets/login.css">
-    <link rel="stylesheet" href="stylesheets/aos.css">
-    <link rel="stylesheet" href="stylesheets/fontawesome/css/all.css">
-    <script src="javascripts/jquery-3.6.0.min.js"></script>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <title>Sign Up | My Zambia</title>
+    <link rel="stylesheet" href="/stylesheets/login.css">
+    <script src="/javascripts/jquery-3.6.0.min.js"></script>
+    <script src="/javascripts/security.js"></script>
+    <link rel="stylesheet" href="/stylesheets/scrollbars.css">
 </head>
-<body>
-    <div class="auth-container">
-        <h2>Sign Up</h2>
-        <form id="signupForm" action="/signup" method="POST">
-            <div class="input-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
+<body class="auth-page">
+    <main class="auth-layout">
+        <section class="auth-scenery" aria-label="Discover Zambia">
+            <a class="auth-brand" href="/login" aria-label="My Zambia home"><img src="/images/logo.png" alt="My Zambia"><span>MY ZAMBIA</span></a>
+            <div class="auth-story">
+                <h1>Explore Zambia</h1>
+                <p>Tourist attractions, restaurants and places to stay.</p>
             </div>
-            <div class="input-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+        </section>
+        <section class="auth-panel" aria-labelledby="auth-title">
+            <div class="auth-container">
+                <h2 id="auth-title">Create your account</h2>
+                <p class="auth-intro">Create an account to review places you have visited.</p>
+                <% if (typeof error != 'undefined' && error) { %>
+                <p class="auth-error" role="alert"><%= error %></p>
+                <% } %>
+                <form id="signupForm" action="/signup" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div class="input-group"><label for="name">Your name</label><input type="text" id="name" name="name" placeholder="Enter your name" autocomplete="name" required></div>
+                    <div class="input-group"><label for="email">Email address</label><input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required></div>
+                    <div class="input-group"><label for="password">Password</label><div class="password-field"><input type="password" id="password" name="password" placeholder="Choose a password" autocomplete="new-password" minlength="6" aria-describedby="password-help" required><button class="password-toggle" type="button" aria-label="Show password" aria-controls="password" aria-pressed="false">Show</button></div><p class="field-help" id="password-help">Use at least 6 characters.</p></div>
+                    <button class="auth-submit" type="submit">Create account</button>
+                </form>
+                <div class="auth-divider"><span>or</span></div>
+                <form action="/guest" method="POST"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="auth-guest" type="submit">Continue as guest</button></form>
+                <p class="auth-switch">Already have an account? <a href="/login">Log in</a></p>
             </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Sign Up</button>
-        </form>
-        <p>Already have an account? <a href="/login">Login</a></p>
-    </div>
-    <script src="/scripts.js"></script>
+        </section>
+    </main>
+    <script src="/javascripts/login.js"></script>
 </body>
 </html>

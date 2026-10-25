@@ -1,60 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="author" content="Kondwani Phiri">
+    <meta name="csrf-token" content="<%= csrfToken %>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Zambia - Chill Spots</title>
     <link rel="stylesheet" href="stylesheets/nav.css">
     <link rel="stylesheet" href="stylesheets/navMobile.css">
     <link rel="stylesheet" href="stylesheets/aos.css">
-    <link rel="stylesheet" href="stylesheets/glide.core.min.css">
-     <link rel="stylesheet" href="stylesheets/glide.theme.css">
-    <link rel="stylesheet" href="stylesheets/chill.css">
-    <link rel="stylesheet" href="stylesheets/chillMobile.css">
-    <link rel="stylesheet" href="stylesheets/fontawesome/css/all.css">
     <link rel="stylesheet" href="stylesheets/fontawesome-free-6.6.0-web/css/all.css">
     <script src="javascripts/jquery-3.6.0.min.js"></script>
+    <script src="/javascripts/security.js"></script>
+    <script src="/javascripts/content.js"></script>
+    <link rel="stylesheet" href="/stylesheets/site-ui.css">
+    <link rel="stylesheet" href="/stylesheets/places.css">
+    <link rel="stylesheet" href="/stylesheets/chill.css">
+    <link rel="stylesheet" href="/stylesheets/chillMobile.css">
+    <link rel="stylesheet" href="/stylesheets/legacy-listings.css">
+    <link rel="stylesheet" href="/stylesheets/scrollbars.css">
 </head>
 
 <body>
 
-  <header>
-    
-    <nav id="nav1">
-      <img src="images/logo.png" alt="" class="logo">
-      <ul class="links">
-        <li><a href="/">Home</a></li>
-        <li><a href="chill">Chill Spots</a></li>
-        <li><a href="attractions">Physical Attractions</a></li>
-        <li><a><i class="fa fa-user"></i> <%=username %></a></li>
-        <li><a href="logout"><i class="fa-solid fa-right-from-bracket"></i></a></li>
-        <div>
-          <input type="text" name="search" id="search" placeholder="Search">
-        </div>
-      </ul>
-    </nav>
-  
-    <nav id="nav2">
-      <img src="images/logo.png" alt="" class="logo">
-      <span id="navBarTrigger"><i class="fas fa-bars" ></i><span id="x">X</span></span>
-      <ul class="links2">
-        <div>
-          <input type="text" name="search" id="search2" placeholder="Search">
-        </div>
-        <li><a><i class="fa fa-user"></i> <%=username %></a></li>
-        <li><a href="/">-> Home</a></li>
-        <li><a href="chill">-> Chill Spots</a></li>
-        <li><a href="attractions">-> Physical Attractions</a></li>
-        <li><a href="logout"><i class="fa-solid fa-right-from-bracket"> </i> Logout</a></li>
-  
-      </ul>
-    </nav>
-  
-  </header>
+  <%- include('partials/navigation') %>
 
 <section class="search">
   <div class="topLayer">
-    <input type="text" class="searchBar">
+    <input type="text" class="searchBar" aria-label="Search locations" placeholder="Search places by name">
     <span class="close">X</span>
   </div>
 
@@ -63,299 +36,23 @@
   </div>
 </section>
 
-      <section class="location">
-        <div class="bg">
-            <img id="bg" src="images/sites/Lusaka/37DGallery/1.jpg" alt="">
-            <div class="detailsContainer">
-                <div class="bigDetails " id="1">
-                    <h1>37D</h1>
-                    <h2>Art Gallery</h2>
-                    <p>37D Gallery in Lusaka showcases contemporary Zambian and 
-                        African art, promoting local artists and cultural enrichment.</p>
-                    <button class="seemore"><a href="">See More</a></button>
-                </div>
-                <div class="map">
-                    <img src="images/map/lsk.png" alt="">
-                    <h3>Lusaka Province</h3>
-                </div>
-            </div>
-        </div>
-        <div class="cardContainer glide1">
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides lsk">
-              </ul>
-            </div>
-            <div class="glide__arrows" data-glide-el="controls">
-                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-          </div> 
-      </section>
+<main class="places-page legacy-page" data-kind="chill" data-layout="legacy">
+    <section class="places-intro" aria-labelledby="places-title"><span class="places-eyebrow">Explore My Zambia</span><h1 id="places-title">Chill Spots</h1><p>Good food, beautiful stays and places to unwind, across Zambia.</p></section>
+    <section class="place-directory" aria-label="Chill Spot directory">
+      <form class="place-filters" aria-label="Filter places">
+        <div><label for="place-query">Find a place</label><input id="place-query" type="search" placeholder="Name or location" autocomplete="off"></div>
+        <div><label for="place-province">Province</label><select id="place-province"><option value="">All provinces</option></select></div>
+        <div><label for="place-activity">Activity</label><select id="place-activity"><option value="">All activities</option></select></div>
+        <button type="reset" class="filter-reset">Clear filters</button>
+      </form>
+      <div class="places-results"><p id="place-results" role="status" aria-live="polite">Loading places&hellip;</p><span>Discover at your own pace</span></div>
+      <div class="legacy-chill" id="place-grid" aria-busy="true"></div>
+      <div class="places-empty" hidden><h2>No places match your filters</h2><p>Try another province or activity, or clear your filters to see all places.</p><button type="button" class="empty-reset">Clear filters</button></div>
+      <noscript><p>Enable JavaScript to browse and filter the location directory.</p></noscript>
+    </section>
+</main>
 
-      <section class="location">
-        <div class="bg">
-            <img id="bg" src="images/sites/cb/athiti/1.jpg" alt="">
-            <div class="detailsContainer">
-                <div class="bigDetails" id="6">
-                    <h1>ATHITITS</h1>
-                    <h2>Garden Restuarant & Bar</h2>
-                    <p>"Step into a tranquil oasis at our Garden Restaurant and Bar! Enjoy delicious cuisine and refreshing drinks surrounded by lush greenery.</p>
-                    <span id="1" style="display: none;"></span>
-                    <button class="seemore"><a href="">See More</a></button>
-                </div>
-                <div class="map">
-                    <img src="images/map/cb.png" alt="">
-                    <h3>Copperbelt Province</h3>
-                </div>
-            </div>
-        </div>
-        <div class="cardContainer glide2">
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides cb">
-              </ul>
-            </div>
-            <div class="glide__arrows" data-glide-el="controls">
-                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-          </div> 
-        </div>
-      </section>
-
-      <section class="location">
-        <div class="bg">
-            <img id="bg" src="images/sites/southern/batokagorge/1.jpg" alt="">
-            <div class="detailsContainer">
-                <div class="bigDetails " id="11">
-                    <h1>Batoka Gorge</h1>
-                    <h2>Luxury Bush Lodge</h2>
-                    <p>Batoka Gorge Lodge offers a unique blend of luxury and nature, 
-                        perched on the edge of the stunning Batoka Gorge, overlooking the Zambezi River near Victoria Falls.
-                    </p>
-                    <button class="seemore"><a href="">See More</a></button>
-                </div>
-                <div class="map">
-                    <img src="images/map/s.png" alt="">
-                    <h3>Southern Province</h3>
-                </div>
-            </div>
-        </div>
-        <div class="cardContainer glide3">
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides s">
-              </ul>
-            </div>
-            <div class="glide__arrows" data-glide-el="controls">
-                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-          </div> 
-      </section>
-
-      <section class="location">
-        <div class="bg">
-            <img id="bg" src="images/sites/central/CafeChoconilla/1.jpg" alt="">
-            <div class="detailsContainer">
-                <div class="bigDetails" id="16">
-                    <h1>Busu Lodge</h1>
-                    <h2>Comfortable Stay</h2>
-                    <p>Busu Lodge in Chipata offers a comfortable and convenient accommodation option with modern amenities, ideal for travelers and visitors.",
-                    </p>
-                    <button class="seemore"><a href="">See More</a></button>
-                </div>
-                <div class="map">
-                    <img src="images/map/e.png" alt="">
-                    <h3>Eastern Province</h3>
-                </div>
-            </div>
-        </div>
-        <div class="cardContainer glide5">
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides e">
-              </ul>
-            </div>
-            <div class="glide__arrows" data-glide-el="controls">
-                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-          </div> 
-      </section>
-
-      <section class="location">
-        <div class="bg">
-            <img id="bg" src="images/sites/central/CafeChoconilla/1.jpg" alt="">
-            <div class="detailsContainer">
-                <div class="bigDetails" id="16">
-                    <h1>Café Choconilla</h1>
-                    <h2>Dessert & Coffee Spot</h2>
-                    <p>Café Choconilla in central is a delightful café offering a range of desserts, coffee, and light meals, perfect for casual meetups and sweet indulgences.",
-                    </p>
-                    <button class="seemore"><a href="">See More</a></button>
-                </div>
-                <div class="map">
-                    <img src="images/map/c.png" alt="">
-                    <h3>Central Province</h3>
-                </div>
-            </div>
-        </div>
-        <div class="cardContainer glide4">
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides c">
-              </ul>
-            </div>
-            <div class="glide__arrows" data-glide-el="controls">
-                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-          </div> 
-      </section>
-
-      <section class="location">
-        <div class="bg">
-            <img id="bg" src="images/sites/northern/kasamagolfclubrestaurant/1.jpg" alt="">
-            <div class="detailsContainer">
-                <div class="bigDetails" id="26">
-                    <h1>Casual Dining at the Golf Course</h1>
-                    <h2>Dessert & Coffee Spot</h2>
-                    <p>Kasama Golf Club Restaurant offers a relaxed dining experience with a variety of dishes, making it a perfect spot to unwind after a round of golf.",
-                    </p>
-                    <button class="seemore"><a href="">See More</a></button>
-                </div>
-                <div class="map">
-                    <img src="images/map/n.png" alt="">
-                    <h3>Northern Province</h3>
-                </div>
-            </div>
-        </div>
-        <div class="cardContainer glide6">
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides n">
-              </ul>
-            </div>
-            <div class="glide__arrows" data-glide-el="controls">
-                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-          </div> 
-      </section>
-
-      <section class="location">
-        <div class="bg">
-            <img id="bg" src="images/sites/luapula/samfyawaterfrontlodge/1.jpg" alt="">
-            <div class="detailsContainer">
-                <div class="bigDetails" id="31">
-                    <h1>Samfya</h1>
-                    <h2>Waterfront Lodge</h2>
-                    <p>Samfya Waterfront Lodge offers a serene retreat on the shores of Lake Bangweulu, providing guests with beautiful views and a relaxing atmosphere.",
-                    </p>
-                    <button class="seemore"><a href="">See More</a></button>
-                </div>
-                <div class="map">
-                    <img src="images/map/l.png" alt="">
-                    <h3>Luapula Province</h3>
-                </div>
-            </div>
-        </div>
-        <div class="cardContainer glide7">
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides l">
-              </ul>
-            </div>
-            <div class="glide__arrows" data-glide-el="controls">
-                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-          </div> 
-      </section>
-
-      <section class="location">
-        <div class="bg">
-            <img id="bg" src="images/sites/western/countrylodgemongu/1.jpg" alt="">
-            <div class="detailsContainer">
-                <div class="bigDetails" id="36">
-                    <h1>Country Lodge</h1>
-                    <h2>Comfort and Hospitality</h2>
-                    <p>Country Lodge Mongu offers a blend of comfort and local charm, making it an excellent choice for travelers in the Western Province.",
-                    </p>
-                    <button class="seemore"><a href="">See More</a></button>
-                </div>
-                <div class="map">
-                    <img src="images/map/w.png" alt="">
-                    <h3>Western Province</h3>
-                </div>
-            </div>
-        </div>
-        <div class="cardContainer glide8">
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides w">
-              </ul>
-            </div>
-            <div class="glide__arrows" data-glide-el="controls">
-                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-          </div> 
-      </section>
-
-      <section class="location">
-        <div class="bg">
-            <img id="bg" src="images/sites/northwestern/spicevalley/1.jpg" alt="">
-            <div class="detailsContainer">
-                <div class="bigDetails" id="41">
-                    <h1>Spice Valley Bar & Restaurant</h1>
-                    <h2>Dining and Drinks Spot</h2>
-                    <p>Spice Valley Bar & Restaurant offers a vibrant atmosphere with a diverse menu and a great selection of drinks.",
-                    </p>
-                    <button class="seemore"><a href="">See More</a></button>
-                </div>
-                <div class="map">
-                    <img src="images/map/nw.png" alt="">
-                    <h3>North-Western Province</h3>
-                </div>
-            </div>
-        </div>
-        <div class="cardContainer glide9">
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides nw">
-              </ul>
-            </div>
-            <div class="glide__arrows" data-glide-el="controls">
-                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-          </div> 
-      </section>
-
-      <section class="location">
-        <div class="bg">
-            <img id="bg" src="images/sites/muchinga/crumachlodge/1.jpg" alt="">
-            <div class="detailsContainer">
-                <div class="bigDetails" id="46">
-                    <h1>Crumach Lodge</h1>
-                    <h2>Lodge</h2>
-                    <p>Crumach Lodge offers a serene escape in the heart of Muchinga Province, providing a peaceful retreat with comfortable accommodations and beautiful natural surroundings.",
-                    </p>
-                    <button class="seemore"><a href="">See More</a></button>
-                </div>
-                <div class="map">
-                    <img src="images/map/m.png" alt="">
-                    <h3>Muchinga Province</h3>
-                </div>
-            </div>
-        </div>
-        <div class="cardContainer glide10">
-            <div class="glide__track" data-glide-el="track">
-              <ul class="glide__slides m">
-              </ul>
-            </div>
-            <div class="glide__arrows" data-glide-el="controls">
-                <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
-                <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
-              </div>
-          </div> 
-      </section>
-
-      <footer>
+<footer>
         <div class="socialSection">
           <img src="images/logo.png" alt="">
           <div class="social">
@@ -367,16 +64,12 @@
           </div>
         </div>
         <div class="leftSide">
-          <div class="top">
-            <h3>Subscribe For our News Letter</h3>
-            <input type="email">
-            <button>Send</button>
-          </div>
+          <div class="top"><%- include('partials/newsletter') %></div>
           <div class="bottom">
             <a href="#">Cookie Policy</a>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms and Conditions</a>
-            <a href="#">Contact Us</a>
+            <a href="/contact">Contact Us</a>
             <a href="#">About Us</a>
           </div>
         </div>
@@ -387,11 +80,15 @@
 
             
         <script src="javascripts/script.js"></script>
-        <script src="javascripts/chill.js"></script>
-        <script src="javascripts/glide.js"></script>
         <script src="javascripts/aos.js"></script>
+        <script src="/javascripts/places.js"></script>
+        <script src="/javascripts/legacy-listings.js"></script>
+        <script src="/javascripts/directory.js"></script>
         <script src="javascripts/search.js"></script>
         <script>AOS.init();</script>
     
+    <script src="/javascripts/image-viewer.js"></script>
+    <script src="/javascripts/motion.js"></script>
+    <script src="/javascripts/mail-forms.js"></script>
 </body>
 </html>

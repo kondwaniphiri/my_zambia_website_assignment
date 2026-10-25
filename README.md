@@ -1,5 +1,7 @@
 # MyZambia - Tourism & Attractions Platform
 
+**Author:** Kondwani Phiri
+
 MyZambia is a web application showcasing Zambia's tourist attractions, chill spots (restaurants, lodges, bars), and tourism news. The platform allows users to explore various locations across Zambia's provinces, view detailed information, and share reviews.
 
 ## Features
@@ -15,7 +17,7 @@ MyZambia is a web application showcasing Zambia's tourist attractions, chill spo
 
 Before installing, ensure you have the following installed:
 
-- **Node.js** (v14.x or higher) - [Download here](https://nodejs.org/)
+- **Node.js** (v22.x or higher) - [Download here](https://nodejs.org/)
 - **MySQL** (v8.x or higher) - [Download here](https://dev.mysql.com/downloads/mysql/)
 - **Git** (optional, for cloning) - [Download here](https://git-scm.com/)
 
@@ -47,7 +49,6 @@ This will install all required dependencies listed in `package.json`:
 - bcrypt
 - express-session
 - cookie-parser
-- cors
 - and other dependencies
 
 ### Step 3: Setup MySQL Database
@@ -86,19 +87,18 @@ This will install all required dependencies listed in `package.json`:
 
 ### Step 4: Configure Database Connection
 
-1. Open the file `db.js` in the project root
-2. Update the database configuration with your MySQL credentials:
+Set database credentials in the same PowerShell session used to start the application:
 
-```javascript
-const config = {
-  host: "localhost",
-  user: "root", // Your MySQL username
-  password: "your_password", // Your MySQL password
-  database: "myzambia",
-};
+```powershell
+$env:DB_HOST = "localhost"
+$env:DB_PORT = "3306"
+$env:DB_USER = "your_database_user"
+$env:DB_PASSWORD = "your_database_password"
+$env:DB_NAME = "myzambia"
 ```
 
-⚠️ **Important**: Replace `'your_password'` with your actual MySQL password.
+`DB_USER` and `DB_PASSWORD` are required; no credentials are embedded in the source.
+`.env.example` lists the settings. The application automatically loads the ignored `.env` file; shell and hosting environment variables take precedence. Never commit real credentials.
 
 ### Step 5: Run the Application
 
@@ -130,25 +130,11 @@ You should see the login page. You can either:
 - **Login** with existing credentials
 - Click **"Continue as Guest"** to browse without an account
 
-## Demo Login Credentials
+## Sample accounts
 
-The database comes pre-populated with test user accounts. You can use any of the following credentials to login:
-
-| Name     | Email              | Password |
-| -------- | ------------------ | -------- |
-| Peter    | peter@gmail.com    | peter    |
-| Jonathan | jonathan@gmail.com | Jonathan |
-| Njavwa   | Njavwa@gmail.com   | Njavwa   |
-| Mubelesi | mubelesi@gmail.com | mubelesi |
-| Leo      | leo@gmail.com      | leo      |
-| James    | james@gmail.com    | james    |
-
-**Example Login:**
-
-- **Email**: `peter@gmail.com`
-- **Password**: `peter`
-
-⚠️ **Note**: These are demo accounts for testing purposes. In production, passwords should be hashed and secured properly.
+The SQL seed contains sample reviewers with random, discarded password hashes.
+These accounts cannot be used to log in. Create an account through Sign up, or
+continue as a guest. Your existing local database is unaffected by this seed cleanup.
 
 ## Admin Dashboard Access
 
@@ -162,13 +148,13 @@ The application includes an admin dashboard for managing content (attractions, c
    http://localhost:3000/dashboard/
    ```
 
-   Or open the file directly in your browser:
+   Use the served dashboard URL above; opening the HTML file directly is no longer supported. Previous example:
 
    ```
    file:///C:/Users/BIG/Documents/chileshe/myzambia/dashboard/index.html
    ```
 
-2. **No login required** - The dashboard connects directly to the database API
+2. **Administrator login required** - Set `ADMIN_USER_IDS` to a comma-separated list of existing user IDs, log in with one of those accounts, then open `/dashboard/`. No administrator accounts are enabled by default.
 
 ### Dashboard Features
 
@@ -178,13 +164,9 @@ The application includes an admin dashboard for managing content (attractions, c
 
 ### Dashboard Configuration
 
-The dashboard connects to the API at `http://localhost:3000/database/action`. If you change the application port, update the URL in `dashboard/scripts.js`:
-
-```javascript
-const url = "http://localhost:YOUR_PORT/database/action";
-```
-
-⚠️ **Security Note**: The current dashboard has no authentication. For production use, implement proper admin authentication and authorization.
+The dashboard uses the same-origin `/database/action` API. Changing `PORT` requires
+no frontend URL changes. Dashboard pages and write APIs require an account listed
+in `ADMIN_USER_IDS`.
 
 ## Default Port Configuration
 
@@ -205,29 +187,17 @@ The application runs on port **3000** by default. To change the port:
 
 ## Project Structure
 
-```
-myzambia/
-├── app.js                 # Main application file
-├── db.js                  # Database configuration
-├── myzambia.sql          # Database schema and initial data
-├── package.json          # Project dependencies
-├── bin/
-│   └── www               # Server startup script
-├── routes/
-│   ├── index.js          # Main routes (login, signup, pages)
-│   └── database.js       # Database API routes
-├── views/                # EJS templates
-│   ├── index.ejs         # Home page
-│   ├── attractions.ejs   # Attractions page
-│   ├── chill.ejs         # Chill spots listing
-│   ├── chillDetails.ejs  # Detailed view of locations
-│   ├── login.ejs         # Login page
-│   └── signup.ejs        # Signup page
-├── public/               # Static files
-│   ├── images/           # Images for attractions, sites, news
-│   ├── javascripts/      # Client-side JavaScript
-│   └── stylesheets/      # CSS files
-└── dashboard/            # Admin dashboard (if applicable)
+```text
+app.js, bin/www       Express application and startup
+config/, db.js        Environment loading and database connection
+routes/, middleware/  Routes, security and session handling
+services/             Email delivery and newsletter worker
+views/, public/       Page templates, styles, scripts and images
+dashboard/            Administrator interface
+scripts/              Database migration and screenshot capture
+screenshots/          Desktop and mobile project screenshots
+verify-*.cjs          Application and integration checks
+myzambia.sql          Sanitized assignment seed
 ```
 
 ## Database Tables
@@ -275,7 +245,7 @@ The application uses the following main tables:
 
 **Error**: `Error connecting to database`
 
-- **Solution**: Check that MySQL is running and credentials in `db.js` are correct
+- **Solution**: Check that MySQL is running and credentials in `.env` are correct
 
 ### Port Already in Use
 
@@ -303,7 +273,6 @@ The application uses the following main tables:
 For development, the project includes:
 
 - **nodemon**: Auto-restart server on file changes
-- **livereload**: Auto-refresh browser on changes (optional)
 
 ## Environment Variables
 
@@ -316,8 +285,8 @@ You can configure the following environment variables:
 
 ⚠️ **Important for Production**:
 
-- Change the session secret in `app.js` from `'54321'` to a strong random string
-- Implement password hashing (bcrypt is already installed)
+- Set `SESSION_SECRET` to a strong persistent random value; otherwise a new secret is generated each server start, invalidating previous sessions
+- Run `node scripts/hash-passwords.js` after importing legacy account data
 - Use environment variables for sensitive data (database password, session secret)
 - Enable HTTPS in production
 - Implement input validation and sanitization
@@ -337,3 +306,174 @@ This project is for educational/demonstration purposes.
 ---
 
 **Developed for showcasing Zambia's tourism destinations**
+
+## Authentication fixes and verification
+
+The existing Express routes, EJS templates and jQuery dashboard are retained.
+Set these variables in PowerShell before starting the server (replace the examples):
+
+```powershell
+$env:ADMIN_USER_IDS = "1,2"
+$env:SESSION_SECRET = "replace-with-a-long-random-secret"
+npm start
+```
+
+Administrator IDs must belong to accounts you trust; ordinary signups cannot grant administrator access.
+The dashboard is served at http://localhost:3000/dashboard/ and requires login on the same host.
+Review writes use the logged-in user ID, ignoring IDs supplied by the browser.
+
+Run `node scripts/hash-passwords.js` to hash all legacy database passwords.
+This command updates the configured MySQL database. Already hashed passwords are skipped.
+Legacy accounts also migrate automatically upon successful login. The seed SQL remains demo data.
+
+Run `node verify-fixes.cjs` for HTTP regression checks with a simulated database.
+These checks do not connect to or modify MySQL.
+
+## Request protection
+
+All POST requests require a session CSRF token, supplied by hidden fields in login,
+signup and guest forms and by a header for same-origin jQuery requests. Logout uses
+POST. Tokens rotate after login; reload old tabs if a form expires. Dashboard HTML
+must be served by Express so its token is rendered.
+
+Login accepts at most 10 attempts per IP in 15 minutes, including successful logins.
+Blocked attempts return HTTP 429 with Retry-After. Sessions and login limits are stored in MySQL by default and shared between app processes. Session cookies expire after 24 hours. Expired store rows are cleaned at startup and every 10 minutes. `SESSION_STORE=memory` is available for isolated tests and development only and is rejected in production.
+Express does not trust forwarded IP headers by default; configure trusted proxies
+for your actual hosting setup before using it behind a reverse proxy.
+
+Run `node verify-frontend.cjs` for review text rendering, event handler and CSRF header checks.
+
+## Database migration and local startup
+
+Run `npm run migrate` before `npm start`. On a new database the migration imports
+`myzambia.sql`; populated databases keep their data. It writes a private schema/data
+snapshot to ignored `.local/backups/` before changing structure. Duplicate emails,
+duplicate user/location reviews, orphaned reviews or invalid ratings stop migration
+for manual resolution. No duplicate rows are silently removed. Keep the app stopped
+while migrating: MySQL schema changes are not one atomic transaction.
+
+Migration adds unique keys, generated attraction/chill-spot IDs, review foreign keys
+with cascading cleanup, a 1-5 rating constraint, session/login-limit tables and a
+migration record. Existing plaintext passwords are hashed. Bare domain website
+values from the seed are normalized to HTTPS. Backups may contain legacy password
+data; keep them private. Re-running the migration is supported.
+
+The server binds to `127.0.0.1:3000` by default; `HOST` and `PORT` can override it.
+For production use HTTPS, set `NODE_ENV=production` and a persistent `SESSION_SECRET`.
+Session cookies are secure in production. If HTTPS terminates at a proxy, set
+`TRUST_PROXY` to the actual trusted proxy IP addresses/CIDRs, never arbitrary clients.
+
+URL fields accept HTTP(S) websites, local `images/` paths or HTTP(S) image URLs,
+and HTTPS Google Maps URLs for maps. Unsafe stored URLs render as empty values;
+unsafe URLs submitted to content APIs are rejected. Text fields remain plain text.
+
+Run `npm run test:database` after migration to check MySQL-backed sessions,
+concurrent login limits and database constraints. Its temporary session/limit rows
+are removed; review constraint checks run in a transaction and roll back.
+On Windows PowerShell with script execution disabled, use `npm.cmd` in place of `npm`.
+
+## Public-page UI
+
+Login and signup share the sunset photography, burgundy, cream and gold theme.
+Public pages load `site-ui.css` and the shared image viewer. Attraction photos,
+homepage highlights/news and location galleries show an eye icon for viewing photos.
+The dialog supports previous/next buttons, arrow keys, Escape, backdrop closing,
+image-load errors and focus restoration. AJAX-loaded photos are enhanced automatically.
+Carousel thumbnails retain their existing location-selection behavior.
+Run `node verify-image-viewer.cjs` for isolated viewer interaction checks.
+
+## Directory filters and cards
+
+Chill Spots and Physical Attractions provide province,
+activity and text filters, result counts, a reset action and an empty state. Cards
+show contact links, opening hours when recorded and ratings from existing Chill
+Spot reviews. Physical Attractions currently have no review system and display
+Not rated yet. Unknown hours and contacts are explicitly labelled, never guessed.
+
+Migration 002 adds optional opening_hours/activities fields to Chill Spots and
+province/opening_hours/phone/site fields to attractions. Initial attraction province
+labels are derived only from the existing location text; activity labels for Chill
+Spots are derived from their existing category text. These labels should be checked
+against verified venue information. The admin forms can maintain the new fields.
+All public pages share the accessible desktop/mobile navigation partial.
+
+The Attractions page uses the original alternating photo/text rows and hero image.
+Chill Spots uses province backgrounds with selectable thumbnail strips. Both
+layouts retain filters, ratings and practical information. Thumbnail buttons support
+keyboard selection and avoid layout shifts. The photo dialog uses plain controls
+and eye icons without visible instruction captions.
+
+## Contact email and newsletters
+
+The footer subscription form now uses the database instead of showing a fake success alert.
+Visitors can send messages through /contact. Administrators can read these in the
+dashboard's Email & newsletter section, save plain-text newsletter drafts, review
+them and explicitly queue them for confirmed subscribers. Each recipient receives
+a separate email with an unsubscribe link. A confirmation link expires after 24
+hours; opening a link alone does not subscribe or unsubscribe someone.
+
+Run `npm run migrate` for migration 003. The email fields in the ignored `.env`
+file and `.env.example` are deliberately blank:
+
+- `SMTP_HOST` and `SMTP_PORT`: your provider's SMTP server and port.
+- `SMTP_SECURE`: `true` for implicit TLS (usually port 465); `false` for STARTTLS
+  (usually port 587). If blank, the code infers this from the port. TLS is required.
+- `SMTP_USER` and `SMTP_PASS`: credentials issued by your email provider.
+- `SMTP_FROM`: the sender email address authorized by your provider.
+- `CONTACT_TO`: the inbox that should receive new contact notifications.
+- `PUBLIC_BASE_URL`: the website URL that recipients can open, such as your
+  HTTPS domain, used to build confirmation and unsubscribe links.
+
+Set `ADMIN_USER_IDS` to trusted existing application user IDs for dashboard access.
+Restart the app after changing environment settings. Existing database credentials
+and the session secret remain configured separately. The app does not run a mailbox
+server; contact messages are stored in MySQL and, when configured, forwarded to
+your provider-hosted inbox. Its Reply-To address is the visitor's address.
+
+Until mail is configured, contact messages still save in the dashboard. Newsletter
+sign-up and sending are disabled and show an honest unavailable message. Drafts
+can still be saved. No subscriber is added to a campaign without confirming first.
+
+The built-in worker checks the durable outbox every 30 seconds when SMTP is enabled.
+Failed messages retry with backoff up to five attempts. Restarting the server keeps
+queued jobs; row locks coordinate workers across processes. SMTP acceptance is
+recorded as sent, which does not guarantee inbox placement. A process crash after
+SMTP acceptance and before recording success can cause a duplicate on retry.
+Queued newsletters are skipped after the recipient unsubscribes; a message already
+handed to the SMTP server cannot be recalled.
+
+Run `npm run test:email` after migration. It creates and removes an isolated test
+database, uses a simulated mail transport and never sends real email. The database
+account needs permission to create that temporary database. Nodemailer setup follows
+its [SMTP documentation](https://nodemailer.com/smtp) and
+[message configuration](https://nodemailer.com/message).
+
+Eye icons are small and white with no badge. Scrollbar tracks are hidden while
+wheel, touch and keyboard scrolling remain enabled. Scroll reveals, image selection
+fades and thumbnail hover effects respect reduced-motion preferences.
+
+## Local administrator account
+
+A local administrator account has been created. Its login details are saved in
+ignored `.local/admin-account.txt`; they are not committed to the repository.
+The account ID is included in the ignored `.env` setting `ADMIN_USER_IDS`.
+Log in through `/login`, then select Dashboard or open `/dashboard/`. The dashboard
+includes a Your administrator access panel listing the enabled actions.
+Regular accounts and guests cannot access these administration pages or write APIs.
+Newsletter delivery remains disabled until the blank email settings are filled in.
+
+## Project screenshots
+
+See [the screenshot index](screenshots/README.md) for 26 desktop and mobile captures,
+including public pages, the image viewer, filters and administrator sections.
+With the app running at `http://127.0.0.1:3001`, run `npm run screenshots` to
+refresh them. The script uses installed Google Chrome in a separate headless
+session and reads the local administrator credentials from `.local/admin-account.txt`.
+It does not submit messages, reviews or newsletters. External embeds are excluded.
+
+## Repository housekeeping
+
+Installed dependencies (`node_modules`), `.env`, private backups and local account
+details (`.local`) are ignored. Install dependencies with `npm ci` after cloning.
+Only the CSS, webfonts and licence needed from Font Awesome are included.
+The assignment report and project screenshots are retained.

@@ -1,0 +1,11 @@
+<%# Author: Kondwani Phiri %>
+<header class="site-header">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="site-brand" href="/"><img src="/images/logo.png" alt=""><span>MY ZAMBIA</span></a>
+    <button id="navBarTrigger" class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation"><span class="menu-icon" aria-hidden="true">&#9776;</span><span class="menu-label">Menu</span></button>
+    <div id="site-navigation" class="site-menu">
+      <ul class="site-nav-links"><li><a href="/">Home</a></li><li><a href="/chill">Chill Spots</a></li><li><a href="/attractions">Physical Attractions</a></li><% if (typeof isAdmin != 'undefined' && isAdmin) { %><li><a href="/dashboard/">Dashboard</a></li><% } %></ul>
+      <div class="site-nav-actions"><button type="button" id="search" class="nav-search">Search places</button><span class="nav-user"><%= username %></span><% if (username == 'Visitor' || username == 'Guest') { %><a href="/login" class="nav-logout">Log in</a><% } else { %><a href="/logout" class="nav-logout"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Log out</a><% } %></div>
+    </div>
+  </nav>
+</header>

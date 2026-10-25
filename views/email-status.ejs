@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="author" content="Kondwani Phiri">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <title>Newsletter | My Zambia</title>
+    <link rel="stylesheet" href="/stylesheets/email.css">
+    <link rel="stylesheet" href="/stylesheets/scrollbars.css">
+</head>
+<body class="email-status-page">
+    <main class="email-panel">
+        <h1>My Zambia newsletter</h1>
+        <p role="status"><%= message %></p>
+        <% if (action) { %>
+        <form action="/email/<%= action %>" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="token" value="<%= token %>">
+            <button type="submit"><%= action == 'confirm' ? 'Confirm subscription' : 'Unsubscribe' %></button>
+        </form>
+        <% } %>
+        <p><a href="/">Back to My Zambia</a></p>
+    </main>
+</body>
+</html>

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// Author: Kondwani Phiri
 
 /**
  * Module dependencies.
@@ -25,7 +26,26 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+if (process.env.SESSION_STORE == 'memory') {
+  server.listen(port, process.env.HOST || '127.0.0.1');
+} else {
+  prepareDatabase().then(function() {
+    server.listen(port, process.env.HOST || '127.0.0.1');
+    var cleanup = setInterval(function() { prepareDatabase().catch(function(error) { console.error('Database cleanup failed:', error.code || error.message); }); }, 10 * 60 * 1000);
+    cleanup.unref();
+  }).catch(function(error) {
+    console.error('Database startup failed. Set database credentials and run npm run migrate:', error.code || error.message);
+    process.exitCode = 1;
+  });
+}
+
+async function prepareDatabase() {
+  var connection = await require('../db')();
+  try {
+    await connection.execute('DELETE FROM app_sessions WHERE expires <= ?', [Date.now()]);
+    await connection.execute('DELETE FROM login_limits WHERE expires <= ?', [Date.now()]);
+  } finally { await connection.end(); }
+}
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -87,4 +107,6 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  require('../services/email-worker').start();
+  console.log('MyZambia is running at http://' + (process.env.HOST || '127.0.0.1') + ':' + addr.port);
 }

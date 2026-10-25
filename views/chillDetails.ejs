@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="author" content="Kondwani Phiri">
+    <meta name="csrf-token" content="<%= csrfToken %>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Zambia - <%= h1%>  </title>
@@ -9,50 +11,21 @@
     <link rel="stylesheet" href="stylesheets/chilldetails.css">
     <link rel="stylesheet" href="stylesheets/chilldetailsMobile.css">
     <link rel="stylesheet" href="stylesheets/aos.css">
-    <link rel="stylesheet" href="stylesheets/fontawesome/css/all.css">
     <link rel="stylesheet" href="stylesheets/fontawesome-free-6.6.0-web/css/all.css">
     <script src="javascripts/jquery-3.6.0.min.js"></script>
+    <script src="/javascripts/security.js"></script>
+    <script src="/javascripts/content.js"></script>
+    <link rel="stylesheet" href="/stylesheets/site-ui.css">
+    <link rel="stylesheet" href="/stylesheets/scrollbars.css">
 </head>
 <body>
 
-  <header>
-    
-    <nav id="nav1">
-      <img src="images/logo.png" alt="" class="logo">
-      <ul class="links">
-        <li><a href="/">Home</a></li>
-        <li><a href="chill">Chill Spots</a></li>
-        <li><a href="attractions">Physical Attractions</a></li>
-        <li><a class="useruser"><i class="fa fa-user"></i> <%=username %></a></li>
-        <li><a href="logout"><i class="fa-solid fa-right-from-bracket"></i></a></li>
-        <div>
-          <input type="text" name="search" id="search" placeholder="Search">
-        </div>
-      </ul>
-    </nav>
-  
-    <nav id="nav2">
-      <img src="images/logo.png" alt="" class="logo">
-      <span id="navBarTrigger"><i class="fas fa-bars" ></i><span id="x">X</span></span>
-      <ul class="links2">
-        <div>
-          <input type="text" name="search" id="search2" placeholder="Search">
-        </div>
-        <li><a class="useruser"><i class="fa fa-user"></i> <%=username %></a></li>
-        <li><a href="/">-> Home</a></li>
-        <li><a href="chill">-> Chill Spots</a></li>
-        <li><a href="attractions">-> Physical Attractions</a></li>
-        <li><a href="logout"><i class="fa-solid fa-right-from-bracket"> </i> Logout</a></li>
-  
-      </ul>
-    </nav>
-  
-  </header>
+  <%- include('partials/navigation') %>
   
 
 <section class="search">
   <div class="topLayer">
-    <input type="text" class="searchBar">
+    <input type="text" class="searchBar" aria-label="Search locations" placeholder="Search places by name">
     <span class="close">X</span>
   </div>
 
@@ -61,12 +34,12 @@
   </div>
 </section>
 
-      <%= %>
+
     <span id="locationId"><%= pp%></span>
     <span id="userId"><%= uId%></span>
 
     <section class="main">
-        <img src="<%= img1%>" alt="">
+        <img src="<%= safeUrl(img1, 'image') %>" alt="">
         <div class="det">
             <h1><%= h1%></h1>
             <h2><%= h2%></h2>
@@ -78,13 +51,13 @@
     <section class="gallery">
         <h1>Gallery</h1>
         <div>
-            <img src="<%= img2%>" alt="">
+            <img src="<%= safeUrl(img2, 'image') %>" alt="">
         </div>
         <div>
-            <img src="<%= img3%>" alt="">
+            <img src="<%= safeUrl(img3, 'image') %>" alt="">
         </div>
         <div>
-            <img src="<%= img4%>" alt="">
+            <img src="<%= safeUrl(img4, 'image') %>" alt="">
         </div>
     </section>
 
@@ -111,7 +84,7 @@
         <i class="fa-regular fa-star"></i>
       </div>
       <label for="inputRating">Rating (1-5)</label>
-      <input id="inputRating" type="number" min="0" max="5" step="0.5" >
+      <input id="inputRating" type="number" min="1" max="5" step="0.5" >
       <label for="inputComment">Comment</label>
       <textarea name="" id="inputComment"></textarea>
       <button class="addButton">Add</button>
@@ -136,13 +109,13 @@
     
     <section class="map">
       
-        <iframe src="<%= map%>" width="600" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="<%= safeUrl(map, 'map') %>" width="600" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         <div class="contact">
-            <h1>Contact</h1>
+            <h1>Plan your visit</h1>
+            <h3>Opening hours: <span><%= typeof opening_hours != 'undefined' && opening_hours ? opening_hours : 'Hours not listed' %></span></h3>
             <h3><i class="fa fa-map-marker"></i> Address: <span><%= address%></span></h3>
             <h3><i class="fa fa-phone"></i>  Phone: <span><%= phone%></span></h3>
-            <h3><i class="fa fa-envelope"></i>  Email: <span><%= h1.toLowerCase()+h2.toLowerCase().replace(/\s+/g, '')%>@gmail.com</span></h3>
-            <h3><i class="fa fa-globe"></i>  Website: <a href="<%= site%>"><%= site%></a></h3>
+            <h3><i class="fa fa-globe"></i>  Website: <a href="<%= safeUrl(site, 'site') %>"><%= site%></a></h3>
 
 
         </div>
@@ -161,16 +134,12 @@
           </div>
         </div>
         <div class="leftSide">
-          <div class="top">
-            <h3>Subscribe For our News Letter</h3>
-            <input type="email">
-            <button>Send</button>
-          </div>
+          <div class="top"><%- include('partials/newsletter') %></div>
           <div class="bottom">
             <a href="#">Cookie Policy</a>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms and Conditions</a>
-            <a href="#">Contact Us</a>
+            <a href="/contact">Contact Us</a>
             <a href="#">About Us</a>
           </div>
         </div>
@@ -180,8 +149,9 @@
 
     <script src="javascripts/reviews.js"></script>
     <script src="javascripts/script.js"></script>
-    <script src="javascripts/chill.js"></script>
+    <script src="/javascripts/search-data.js"></script>
     <script src="javascripts/search.js"></script>
-    <script src="javascripts/chilldetails.js"></script>
+    <script src="/javascripts/image-viewer.js"></script>
+    <script src="/javascripts/mail-forms.js"></script>
 </body>
 </html>
